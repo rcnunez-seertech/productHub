@@ -1,0 +1,12 @@
+*.log
+*.class
+target
+classes
+logs
+grails-app/conf/DataSource.groovy
+CodeNarcReport.html
+*.jar
+*.ser
+.classpath
+.project
+bin

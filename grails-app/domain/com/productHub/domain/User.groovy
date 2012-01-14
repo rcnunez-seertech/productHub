@@ -14,6 +14,7 @@ class User {
     RoleType userRole
 	
 	Store store
+	Cart cart
 	
 	byte[] avatar
     boolean enabled = true
@@ -38,6 +39,26 @@ class User {
         contactNumber (matches:/[\d]+/)
         userRole (nullable:false)
 		store (nullable:true)
+		cart (nullable:true, validator: { val, obj ->
+            switch(obj.userRole) {
+			case RoleType.ROLE_ADMINISTRATOR:
+            case RoleType.ROLE_VENDOR:
+                return true
+                break
+
+            case RoleType.ROLE_CLIENT:
+                boolean isValid=false
+                if(val) {
+                    isValid=true
+                }
+
+                if (isValid ==false) {
+                    return ['nodepot']
+                }
+				return isValid
+                break
+            }
+        })
 		avatar (nullable:true)
 		
 	}
