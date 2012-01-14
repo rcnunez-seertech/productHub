@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+  <testsuite errors="0" failures="0" hostname="Harry-Potter" id="0" name="UserControllerTests" package="com.productHub.domain" tests="1" time="2.498" timestamp="2011-11-24T14:20:03">
+      <properties />
+
+      <testcase classname="com.productHub.domain.UserControllerTests" name="testSomething" time="2.446" />
+
+      <system-out><![CDATA[--Output from testSomething--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testSomething--
+]]></system-err>
+
+  </testsuite>
+</testsuites>
