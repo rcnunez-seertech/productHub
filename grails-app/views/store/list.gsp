@@ -8,16 +8,17 @@
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
-        </div>
-        <div class="body">
+       
             <h1><g:message code="default.list.label" args="[entityName]" /></h1>
-            <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
+           <g:if test="${flash.message}">
+            <div class="alert-message block-message warning">${flash.message}</div>
             </g:if>
-            <div class="list">
+			<div class="row">
+				<div class="alignright">
+				&nbsp;&nbsp;<g:link class="btn" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link>
+				</div>
+			</div>
+            <div class="zebra-striped">
                 <table>
                     <thead>
                         <tr>
@@ -56,6 +57,5 @@
             <div class="paginateButtons">
                 <g:paginate total="${storeInstanceTotal}" />
             </div>
-        </div>
     </body>
 </html>

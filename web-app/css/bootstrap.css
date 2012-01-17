@@ -249,6 +249,10 @@ a:hover {
 .show {
   display: block;
 }
+.alignright {
+	text-align: right;
+	margin-right: 5px;
+}
 .row {
   zoom: 1;
   margin-left: -20px;
@@ -1119,15 +1123,27 @@ table th {
 }
 table td {
   vertical-align: top;
-  border-top: 1px solid #ddd;
+  /*border-top: 1px solid #ddd;*/
 }
 table tbody th {
-  border-top: 1px solid #ddd;
+  /*border-top: 1px solid #ddd;*/
   vertical-align: top;
 }
 .condensed-table th, .condensed-table td {
   padding: 5px 5px 4px;
 }
+
+.bordered{
+	border: 0px solid #aaa;
+	-webkit-border-radius: 4px;
+	  -moz-border-radius: 4px;
+	  border-radius: 4px;
+}
+
+.no-borders{
+	 border: 0px solid #fff;
+}
+
 .bordered-table {
   border: 1px solid #ddd;
   border-collapse: separate;

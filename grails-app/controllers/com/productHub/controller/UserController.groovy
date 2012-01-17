@@ -74,6 +74,7 @@ class UserController {
 
     def update = {
         def userInstance = User.get(params.id)
+		def oldPassword = userInstance.password
         if (userInstance) {
             if (params.version) {
                 def version = params.version.toLong()
@@ -85,6 +86,8 @@ class UserController {
                 }
             }
             userInstance.properties = params
+			userInstance.password = oldPassword
+			userInstance.confirmPassword = oldPassword
             if (!userInstance.hasErrors() && userInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'user.label', default: 'User'), userInstance.id])}"
                 redirect(action: "show", id: userInstance.id)
