@@ -22,11 +22,11 @@ class StoreController {
 
 	@Secured(['ROLE_VENDOR'])
     def create = {
-		def userInstance = User.findByUsername(springSecurityService.authentication.name)
+		//def userInstance = User.findByUsername(springSecurityService.authentication.name)
         def storeInstance = new Store()
         storeInstance.properties = params
-		storeInstance.user = userInstance
-        return [storeInstance: storeInstance, userInstance: userInstance]
+		//storeInstance.user = userInstance
+        return [storeInstance: storeInstance]
     }
 
 	@Secured(['ROLE_VENDOR'])
@@ -35,15 +35,18 @@ class StoreController {
 		def userInstance = User.findByUsername(springSecurityService.authentication.name)
 		storeInstance.user = userInstance
         if (storeInstance.save(flush: true)) {
+			userInstance.store = storeInstance
+			userInstance.confirmPassword = userInstance.password
+			userInstance.save(flush: true, failOnError:true)
+			println "USERSAVED" + userInstance.store
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'store.label', default: 'Store'), storeInstance.id])}"
             redirect(action: "show", id: storeInstance.id)
         }
         else {
-            render(view: "create", model: [storeInstance: storeInstance, userInstance: userInstance])
+            render(view: "create", model: [storeInstance: storeInstance])
         }
     }
 
-	@Secured(['ROLE_VENDOR'])
     def show = {
 		def userInstance = User.findByUsername(springSecurityService.authentication.name)
         def storeInstance = Store.get(params.id)

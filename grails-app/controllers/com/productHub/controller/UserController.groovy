@@ -20,24 +20,22 @@ class UserController {
     def create = {
         def userInstance = new User()
         userInstance.properties = params
-		userInstance.cart = new Cart(user: User.get(userInstance.id))
+		//userInstance.cart = new Cart(user: User.get(userInstance.id))
         return [userInstance: userInstance]
     }
 
     def save = {
         def userInstance = new User(params)
 		Role role = Role.findByAuthority(userInstance?.userRole?.getKey())
-		
-		//println userInstance?.userRole
 		if(userInstance?.userRole == RoleType.ROLE_CLIENT) {
-			userInstance.cart = new Cart(user: userInstance).save(flush: true, failOnError:true)
-			println "PASOK"
-			println userInstance.cart
-		}
-		
+				userInstance.cart = new Cart(user: userInstance).save(flush: true, failOnError:true)
+				//println "PASOK"
+				//println userInstance.cart
+		}	
         if (userInstance.save(flush: true)) {
 			UserRole.create userInstance, role, true
 			println "Created instance for " + userInstance.username + " : " + role
+			
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'user.label', default: 'User'), userInstance.id])}"
             redirect(action: "show", id: userInstance.id)
         }

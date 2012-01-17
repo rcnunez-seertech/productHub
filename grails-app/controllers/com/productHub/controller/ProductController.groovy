@@ -4,7 +4,7 @@ import grails.plugins.springsecurity.Secured
 import com.productHub.domain.*
 
 class ProductController {
-
+	def springSecurityService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index = {
@@ -22,14 +22,20 @@ class ProductController {
 		response.outputStream << prodImage
 	}
 
+	@Secured(['ROLE_VENDOR'])
     def create = {
+		
         def productInstance = new Product()
         productInstance.properties = params
+		
         return [productInstance: productInstance]
     }
 
     def save = {
         def productInstance = new Product(params)
+		def userInstance = User.findByUsername(springSecurityService.authentication.name)
+		
+		productInstance.store = userInstance.store
         if (productInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'product.label', default: 'Product'), productInstance.id])}"
             redirect(action: "show", id: productInstance.id)
