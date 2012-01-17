@@ -11,7 +11,7 @@
     <body>
         
             <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
-             <g:if test="${flash.message}">
+            <g:if test="${flash.message}">
             <div class="alert-message block-message warning">${flash.message}</div>
             </g:if>
             <g:hasErrors bean="${storeInstance}">

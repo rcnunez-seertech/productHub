@@ -35,7 +35,7 @@ class User {
                   }
             )
         username  (blank:false, size:5..15, matches:/[\S]+/, unique:true)
-        emailAddress (email:true, blank:false, nullable:false)
+        emailAddress (email:true, blank:false, nullable:false, unique:true)
         contactNumber (matches:/[\d]+/)
         userRole (nullable:false)
 		store (nullable:true)

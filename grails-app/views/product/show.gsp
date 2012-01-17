@@ -8,17 +8,16 @@
         <title><g:message code="default.show.label" args="[entityName]" /></title>
     </head>
     <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
-        </div>
-        <div class="body">
             <h1><g:message code="default.show.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
+            <div class="alert-message block-message warning">${flash.message}</div>
             </g:if>
-            <div class="dialog">
+			<div class="row">	
+				<div class="alignright">
+				<g:link class="btn" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link>
+				<g:link class="btn" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link>
+				</div>
+			</div>
                 <table>
                     <tbody>
                     
@@ -67,25 +66,24 @@
 						<tr class="prop">
                             <td valign="top" class="name"><g:message code="store.description.label" default="Store" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: productInstance, field: "store")}</td>
+                            <td valign="top" class="value">
+							<g:link controller="store" action="show" id="${productInstance.store.id}">${productInstance.store.storeName.encodeAsHTML()}</g:link></td>
                             
                         </tr>
 						
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="product.image.label" default="Image" /></td>
-                            <img src="${createLink(controller:'product', action:'image', id: params.id)}"/>
+                            <td valign="top" class="value"><img src="${createLink(controller:'product', action:'image', id: params.id)}"/></td>
                         </tr>
                     
                     </tbody>
                 </table>
-            </div>
             <div class="buttons">
                 <g:form>
                     <g:hiddenField name="id" value="${productInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+                    <g:actionSubmit class="btn" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" />
+                    <!--<span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>-->
                 </g:form>
             </div>
-        </div>
     </body>
 </html>
