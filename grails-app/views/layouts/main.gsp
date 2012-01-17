@@ -14,8 +14,8 @@
 				<div class="container">
 					<a class="brand" href="/productHub">Product Hub</a>
 					<ul class="nav">
-						<li class="active"><a href="#">Trololol</a></li>
-						<li><a href="#">Trololol</a></li>
+						<li class="active"><a href="/productHub/store/list">Stores</a></li>
+						<li><a href="/productHub/product/list">Products</a></li>
 						<li><a href="#">Trololol</a></li>
 					</ul>
 				</div>
