@@ -15,7 +15,9 @@
 			<div class="row">	
 				<div class="alignright">
 				<g:link class="btn" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link>
-				<g:link class="btn" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link>
+				<sec:ifAnyGranted roles="ROLE_VENDOR">
+					<g:link class="btn" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link>
+				</sec:ifAnyGranted>
 				</div>
 			</div>
                 <table>
@@ -82,6 +84,9 @@
                 <g:form>
                     <g:hiddenField name="id" value="${productInstance?.id}" />
                     <g:actionSubmit class="btn" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" />
+					<sec:ifAnyGranted roles="ROLE_CLIENT">
+						<g:actionSubmit class="btn" action="addToCart" value="${message(code: 'default.button.addToCart.label', default: 'Add To Cart')}" />
+					</sec:ifAnyGranted>
                     <!--<span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>-->
                 </g:form>
             </div>

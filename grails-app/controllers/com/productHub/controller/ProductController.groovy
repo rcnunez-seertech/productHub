@@ -112,4 +112,15 @@ class ProductController {
             redirect(action: "list")
         }
     }
+	
+	@Secured(['ROLE_CLIENT'])
+    def addToCart = {
+		def productInstance = Product.get(params.id)
+		def userInstance = User.findByUsername(springSecurityService.authentication.name)
+		userInstance.cart.addToProducts(productInstance)
+		userInstance.confirmPassword = userInstance.password
+		userInstance.save(flush:true, failOnError:true)
+        flash.message = "Product has been added to cart."
+		redirect(action: "show", id: productInstance.id)
+    }
 }
