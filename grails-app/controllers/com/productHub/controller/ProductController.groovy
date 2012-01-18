@@ -47,12 +47,14 @@ class ProductController {
 
     def show = {
         def productInstance = Product.get(params.id)
+		def userInstance = User.findByUsername(springSecurityService.authentication.name)
+		
         if (!productInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'product.label', default: 'Product'), params.id])}"
             redirect(action: "list")
         }
         else {
-            [productInstance: productInstance]
+            [productInstance: productInstance, userInstance:userInstance]
         }
     }
 
@@ -120,7 +122,19 @@ class ProductController {
 		userInstance.cart.addToProducts(productInstance)
 		userInstance.confirmPassword = userInstance.password
 		userInstance.save(flush:true, failOnError:true)
-        flash.message = "Product has been added to cart."
+        flash.message = "Product has been added to your cart."
 		redirect(action: "show", id: productInstance.id)
     }
+	
+	@Secured(['ROLE_CLIENT'])
+	def removeFromCart = {
+		def productInstance = Product.get(params.id)
+		def userInstance = User.findByUsername(springSecurityService.authentication.name)
+		userInstance.cart.removeFromProducts(productInstance)
+		userInstance.confirmPassword = userInstance.password
+		userInstance.save(flush:true, failOnError:true)
+		flash.message = "Product has been removed from your cart."
+		redirect(action: "show", id: productInstance.id)
+	}
+	
 }

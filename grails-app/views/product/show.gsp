@@ -85,7 +85,12 @@
                     <g:hiddenField name="id" value="${productInstance?.id}" />
                     <g:actionSubmit class="btn" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" />
 					<sec:ifAnyGranted roles="ROLE_CLIENT">
+						<g:if test="${!(userInstance.cart.products).contains(productInstance)}">
 						<g:actionSubmit class="btn" action="addToCart" value="${message(code: 'default.button.addToCart.label', default: 'Add To Cart')}" />
+						</g:if>
+						<g:else>
+						<g:actionSubmit class="btn" action="removeFromCart" value="${message(code: 'default.button.removeFromCart.label', default: 'Remove From Cart')}" />
+						</g:else>
 					</sec:ifAnyGranted>
                     <!--<span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>-->
                 </g:form>
