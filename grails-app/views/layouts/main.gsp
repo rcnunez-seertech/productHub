@@ -63,10 +63,11 @@
 						<sec:ifAnyGranted roles="ROLE_CLIENT">
 							<a href="/productHub/cart/index">View Carts</a>
 						</sec:ifAnyGranted>
-					
-					<sec:ifNotLoggedIn>
-						<a href="/productHub/user/create">Register</a>
-					</sec:ifNotLoggedIn>
+
+						
+						<sec:ifNotLoggedIn>
+							<a href="/productHub/user/create">Register</a>
+						</sec:ifNotLoggedIn>
 					</div>
 					
 					<div class="content">

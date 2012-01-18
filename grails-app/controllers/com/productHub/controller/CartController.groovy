@@ -83,6 +83,7 @@ class CartController {
         }
     }
 
+	@Secured(['ROLE_ADMINISTRATOR'])
     def delete = {
         def cartInstance = Cart.get(params.id)
         if (cartInstance) {
