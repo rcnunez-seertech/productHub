@@ -6,7 +6,7 @@ class Store {
 	String description
 	float rating
 	
-	static hasMany = [products: Product]
+	static hasMany = [products: Product, orderforms: OrderForm]
 	static belongsTo = [user: User]
 
     static constraints = {

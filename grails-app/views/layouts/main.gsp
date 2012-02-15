@@ -61,9 +61,12 @@
 						<h2>Navigation</h2>
 						<hr />
 						<sec:ifAnyGranted roles="ROLE_CLIENT">
-							<a href="/productHub/cart/index">View Carts</a>
+							<a href="/productHub/cart/index">View Cart</a>
 						</sec:ifAnyGranted>
 
+						<sec:ifAnyGranted roles="ROLE_ADMINISTRATOR">
+							<a href="/productHub/cart/list">View Carts</a>
+						</sec:ifAnyGranted>
 						
 						<sec:ifNotLoggedIn>
 							<a href="/productHub/user/create">Register</a>
