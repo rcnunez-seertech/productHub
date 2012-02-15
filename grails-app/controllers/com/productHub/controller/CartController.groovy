@@ -5,7 +5,7 @@ import com.productHub.domain.*
 
 @Secured(['ROLE_ADMINISTRATOR', 'ROLE_CLIENT'])
 class CartController {
-
+	def springSecurityService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index = {
@@ -13,10 +13,16 @@ class CartController {
     }
 
     def list = {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [cartInstanceList: Cart.list(params), cartInstanceTotal: Cart.count()]
+		def userInstance = User.findByUsername(springSecurityService.authentication.name)
+		if(userInstance?.userRole == RoleType.ROLE_CLIENT) {
+			redirect(action: "show", id: userInstance.cart.id)
+		} else {
+			params.max = Math.min(params.max ? params.int('max') : 10, 100)
+			[cartInstanceList: Cart.list(params), cartInstanceTotal: Cart.count()]
+		}
     }
 
+	@Secured(['ROLE_ADMINISTRATOR'])
     def create = {
         def cartInstance = new Cart()
         cartInstance.properties = params
