@@ -13,6 +13,7 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
+			<sec:ifAnyGranted roles="ROLE_ADMINISTRATOR">
                 <table>
                     <tbody>
                     
@@ -27,17 +28,26 @@
                             <td valign="top" class="name"><g:message code="cart.products.label" default="Products" /></td>
                             
                             <td valign="top" style="text-align: left;" class="value">
-                                <ul>
-                                <g:each in="${cartInstance.products}" var="p">
-                                    <li><g:link controller="product" action="show" id="${p.id}">${p?.productName.encodeAsHTML()}</g:link></li>
+            </sec:ifAnyGranted>  
+                                <g:each in="${cartInstance.stores}" var="s" status="i">
+									<g:if test="${ (cartInstance?.products).findAll{it.store == s} }">
+										<table class="zebra-striped">
+											<tr><th>${s.storeName}</th></tr>
+											<tr><td><g:each in="${ (cartInstance?.products).findAll{it.store == s} }" var="p">
+												<li><g:link controller="product" action="show" id="${p.id}">${p?.productName.encodeAsHTML()}</g:link></li>
+											</g:each></td></tr>
+										</table>
+									</g:if>
+									</ul>
                                 </g:each>
-                                </ul>
+            <sec:ifAnyGranted roles="ROLE_ADMINISTRATOR">                    
                             </td>
                             
                         </tr>
                     
                     </tbody>
                 </table>
+			</sec:ifAnyGranted>
             <div class="buttons">
                 <g:form>
                     <g:hiddenField name="id" value="${cartInstance?.id}" />

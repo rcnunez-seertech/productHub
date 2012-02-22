@@ -83,7 +83,12 @@
             <div class="buttons">
                 <g:form>
                     <g:hiddenField name="id" value="${productInstance?.id}" />
-                    <g:actionSubmit class="btn" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" />
+					<sec:ifAnyGranted roles="ROLE_VENDOR, ROLE_ADMINISTRATOR">	
+						<g:if test="${userInstance.store.id == productInstance.store.id}">
+							<g:actionSubmit class="btn" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" />
+						</g:if>
+					</sec:ifAnyGranted>
+					
 					<sec:ifAnyGranted roles="ROLE_CLIENT">
 						<g:if test="${!(userInstance.cart.products).contains(productInstance)}">
 						<g:actionSubmit class="btn" action="addToCart" value="${message(code: 'default.button.addToCart.label', default: 'Add To Cart')}" />

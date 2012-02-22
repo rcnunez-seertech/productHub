@@ -4,10 +4,18 @@ class Store {
 	String storeName
 	String storeCode
 	String description
+	String meetUpLocations
 	float rating
 	
 	static hasMany = [products: Product, orderforms: OrderForm]
 	static belongsTo = [user: User]
+	
+	
+	String accountDetails
+	
+	boolean acceptsDirect = false
+	boolean acceptsPayPal = false
+	boolean acceptsMoneyTransfer = false
 
     static constraints = {
 		storeName (unique:true, blank:false, size: 5..20)
@@ -34,6 +42,14 @@ class Store {
 					break
 			}
 		})
+		
+	accountDetails(nullable:true, validator: {val, obj ->
+		if(obj.acceptsMoneyTransfer && !val) {
+			return ['nodetails']
+		} else {
+			return true
+		}
+	})
 		
     }
 }

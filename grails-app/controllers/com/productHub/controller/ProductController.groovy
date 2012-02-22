@@ -12,8 +12,9 @@ class ProductController {
     }
 
     def list = {
+		def userInstance = User.findByUsername(springSecurityService.authentication.name)
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [productInstanceList: Product.list(params), productInstanceTotal: Product.count()]
+        [productInstanceList: Product.list(params), productInstanceTotal: Product.count(), userInstance: userInstance]
     }
 	
 	def image = {
@@ -25,10 +26,15 @@ class ProductController {
 	@Secured(['ROLE_VENDOR'])
     def create = {
 		
-        def productInstance = new Product()
-        productInstance.properties = params
-		
-        return [productInstance: productInstance]
+		def userInstance = User.findByUsername(springSecurityService.authentication.name)
+		if(userInstance.store) {
+			def productInstance = new Product()
+			productInstance.properties = params
+			return [productInstance: productInstance]
+		} else {
+			flash.message = "You can't add products if you don't have a store yet."
+			redirect(action: "list")
+		}
     }
 
     def save = {
@@ -119,6 +125,13 @@ class ProductController {
     def addToCart = {
 		def productInstance = Product.get(params.id)
 		def userInstance = User.findByUsername(springSecurityService.authentication.name)
+		
+		if(!userInstance.cart.stores.contains(productInstance.store)) {
+			userInstance.cart.addToStores(productInstance.store)
+			println "LOL PASOK PLZ."
+		}
+		
+		println userInstance.cart.stores
 		userInstance.cart.addToProducts(productInstance)
 		userInstance.confirmPassword = userInstance.password
 		userInstance.save(flush:true, failOnError:true)
@@ -131,8 +144,17 @@ class ProductController {
 		def productInstance = Product.get(params.id)
 		def userInstance = User.findByUsername(springSecurityService.authentication.name)
 		userInstance.cart.removeFromProducts(productInstance)
+		def products = (userInstance.cart.products).findAll{it.store == productInstance.store}
+		
+		if(!products) {
+			userInstance.cart.removeFromStores(productInstance.store)
+			println "removed " + productInstance.store + "from stores"
+		}
+		
 		userInstance.confirmPassword = userInstance.password
 		userInstance.save(flush:true, failOnError:true)
+		
+		println "Stores in cart: " + userInstance.cart.stores
 		flash.message = "Product has been removed from your cart."
 		redirect(action: "show", id: productInstance.id)
 	}

@@ -16,6 +16,9 @@ class User {
 	Store store
 	Cart cart
 	
+	String shippingAddress
+	
+	
 	byte[] avatar
     boolean enabled = true
     boolean accountExpired = false
@@ -53,12 +56,36 @@ class User {
                 }
 
                 if (isValid ==false) {
-                    return ['nodepot']
+                    return ['nocart']
                 }
 				return isValid
                 break
             }
         })
+		
+		shippingAddress (nullable:true, validator:
+			{ val, obj ->
+				switch(obj.userRole) {
+				case RoleType.ROLE_ADMINISTRATOR:
+				case RoleType.ROLE_VENDOR:
+					return true
+					break
+				
+				case RoleType.ROLE_CLIENT:
+                boolean isValid=false
+                if(val) {
+                    isValid=true
+                }
+
+                if (isValid ==false) {
+                    return ['noaddress']
+                }
+				return isValid
+                break
+				}
+			}
+		)
+		
 		avatar (nullable:true)
 		
 	}

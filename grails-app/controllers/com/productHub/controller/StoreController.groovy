@@ -11,6 +11,7 @@ class StoreController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index = {
+		def userInstance = User.findByUsername(springSecurityService.authentication.name)
         redirect(action: "list", params: params)
     }
 
@@ -120,6 +121,7 @@ class StoreController {
     }
 	@Secured(['ROLE_VENDOR'])
     def delete = {
+		def userInstance = User.findByUsername(springSecurityService.authentication.name)
         def storeInstance = Store.get(params.id)
         if (storeInstance) {
             try {

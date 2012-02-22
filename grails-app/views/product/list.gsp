@@ -14,7 +14,12 @@
             </g:if>
 			<div class="row">
 				<div class="alignright">
-				&nbsp;&nbsp;<g:link class="btn" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link>
+				
+				<sec:ifAnyGranted roles="ROLE_VENDOR">
+					<g:if test="${userInstance?.store}">
+						<g:link class="btn" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link>
+					</g:if>
+				</sec:ifAnyGranted>
 				</div>
 			</div>
                 <table class="zebra-striped">
