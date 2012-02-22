@@ -68,6 +68,10 @@
 							<a href="/productHub/cart/list">View Carts</a>
 						</sec:ifAnyGranted>
 						
+						<sec:ifAnyGranted roles="ROLE_VENDOR">
+							<a href="/productHub/store/myStore/">My Store</a>
+						</sec:ifAnyGranted>
+						
 						<sec:ifNotLoggedIn>
 							<a href="/productHub/user/create">Register</a>
 						</sec:ifNotLoggedIn>

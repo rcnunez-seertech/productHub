@@ -16,13 +16,14 @@ class StoreController {
 
 	
     def list = {
+		def userInstance = User.findByUsername(springSecurityService.authentication.name)
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [storeInstanceList: Store.list(params), storeInstanceTotal: Store.count()]
+        [storeInstanceList: Store.list(params), storeInstanceTotal: Store.count(), userInstance: userInstance]
     }
 
 	@Secured(['ROLE_VENDOR'])
     def create = {
-		//def userInstance = User.findByUsername(springSecurityService.authentication.name)
+		def userInstance = User.findByUsername(springSecurityService.authentication.name)
         def storeInstance = new Store()
         storeInstance.properties = params
 		//storeInstance.user = userInstance
@@ -47,6 +48,16 @@ class StoreController {
         }
     }
 
+	def myStore = {
+		def userInstance = User.findByUsername(springSecurityService.authentication.name)
+		def storeInstance = userInstance.store
+		if(userInstance.store) {
+			redirect(action: "show", id: storeInstance.id)
+		} else {
+			redirect(action: "create")
+		}
+	}
+	
     def show = {
 		def userInstance = User.findByUsername(springSecurityService.authentication.name)
         def storeInstance = Store.get(params.id)
@@ -63,14 +74,20 @@ class StoreController {
     def edit = {
 		def userInstance = User.findByUsername(springSecurityService.authentication.name)
         def storeInstance = Store.get(params.id)
-        if (!storeInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'store.label', default: 'Store'), params.id])}"
-            redirect(action: "list")
-        }
-        else if (storeInstance.user == userInstance) {
-            return [storeInstance: storeInstance]
-        } else {
-			// *** Error message.
+		
+		if(userInstance.store == storeInstance) {
+			if (!storeInstance) {
+				flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'store.label', default: 'Store'), params.id])}"
+				redirect(action: "list")
+			}
+			else if (storeInstance.user == userInstance) {
+				return [storeInstance: storeInstance]
+			} else {
+				// *** Error message.
+			}
+		} else {	
+			flash.message = "You cannot edit a store that is not yours."
+			redirect(action: "list")
 		}
     }
 

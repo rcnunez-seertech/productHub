@@ -16,7 +16,7 @@
             <div class="row">	
 				<div class="alignright">
 				<g:link class="btn" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link>
-				<g:link class="btn" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link>
+				
 				</div>
 			</div>
                 <table>

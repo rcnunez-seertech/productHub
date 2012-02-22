@@ -15,7 +15,7 @@
             </g:if>
 			<div class="row">
 				<div class="alignright">
-				&nbsp;&nbsp;<g:link class="btn" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link>
+				<g:if test="${userInstance.store == NULL}"><g:link class="btn" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></g:if>
 				</div>
 			</div>
             <div class="zebra-striped">
