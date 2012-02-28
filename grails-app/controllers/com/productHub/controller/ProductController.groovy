@@ -40,7 +40,6 @@ class ProductController {
     def save = {
         def productInstance = new Product(params)
 		def userInstance = User.findByUsername(springSecurityService.authentication.name)
-		
 		productInstance.store = userInstance.store
         if (productInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'product.label', default: 'Product'), productInstance.id])}"
@@ -123,20 +122,31 @@ class ProductController {
 	
 	@Secured(['ROLE_CLIENT'])
     def addToCart = {
+		/*
 		def productInstance = Product.get(params.id)
 		def userInstance = User.findByUsername(springSecurityService.authentication.name)
 		
-		if(!userInstance.cart.stores.contains(productInstance.store)) {
-			userInstance.cart.addToStores(productInstance.store)
-			println "LOL PASOK PLZ."
-		}
 		
-		println userInstance.cart.stores
-		userInstance.cart.addToProducts(productInstance)
-		userInstance.confirmPassword = userInstance.password
-		userInstance.save(flush:true, failOnError:true)
-        flash.message = "Product has been added to your cart."
-		redirect(action: "show", id: productInstance.id)
+			if(!userInstance.cart.stores.contains(productInstance.store)) {
+				userInstance.cart.addToStores(productInstance.store)
+			}
+			userInstance.cart.addToProducts(productInstance)
+			userInstance.confirmPassword = userInstance.password
+			userInstance.save(flush:true, failOnError:true)
+		
+		//def orderInstance = new Order()
+		//orderInstance.properties = params
+		//println orderInstance.properties
+		
+		println productInstance
+		//orderInstance.product = Product.get(params.id)
+		
+		//orderInstance.customer = userInstance
+		//orderInstance.save(flush:true, failOnError:true)
+		
+        //flash.message = "Product has been added to your cart."
+		redirect(action: "show", id: params.id)
+		*/
     }
 	
 	@Secured(['ROLE_CLIENT'])

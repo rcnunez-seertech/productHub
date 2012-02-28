@@ -8,20 +8,16 @@
         <title><g:message code="default.show.label" args="[entityName]" /></title>
     </head>
     <body>
+        <div class="nav">
+            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
+            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
+            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
+        </div>
+        <div class="body">
             <h1><g:message code="default.show.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
-            <div class="alert-message block-message warning">${flash.message}</div>
+            <div class="message">${flash.message}</div>
             </g:if>
-			<div class="row">	
-				<div class="alignright">
-				<g:link class="btn" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link>
-				<sec:ifAnyGranted roles="ROLE_VENDOR">
-					 <g:if test="${userInstance.store == NULL}">
-						<g:link class="btn" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link>
-					</g:if>
-				</sec:ifAnyGranted>
-				</div>
-			</div>
             <div class="dialog">
                 <table>
                     <tbody>
@@ -48,11 +44,54 @@
                         </tr>
                     
                         <tr class="prop">
+                            <td valign="top" class="name"><g:message code="store.user.label" default="User" /></td>
+                            
+                            <td valign="top" class="value"><g:link controller="user" action="show" id="${storeInstance?.user?.id}">${storeInstance?.user?.encodeAsHTML()}</g:link></td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="store.accountDetails.label" default="Bank Account Details" /></td>
+                            
+                            <td valign="top" class="value">${fieldValue(bean: storeInstance, field: "accountDetails")}</td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="store.acceptsDirect.label" default="Accepts Direct" /></td>
+                            
+                            <td valign="top" class="value"><g:formatBoolean boolean="${storeInstance?.acceptsDirect}" /></td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="store.acceptsMoneyTransfer.label" default="Accepts Money Transfer" /></td>
+                            
+                            <td valign="top" class="value"><g:formatBoolean boolean="${storeInstance?.acceptsMoneyTransfer}" /></td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="store.acceptsPayPal.label" default="Accepts Pay Pal" /></td>
+                            
+                            <td valign="top" class="value"><g:formatBoolean boolean="${storeInstance?.acceptsPayPal}" /></td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
                             <td valign="top" class="name"><g:message code="store.description.label" default="Description" /></td>
                             
                             <td valign="top" class="value">${fieldValue(bean: storeInstance, field: "description")}</td>
                             
                         </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="store.meetUpLocations.label" default="Meet Up Locations" /></td>
+                            
+                            <td valign="top" class="value">${fieldValue(bean: storeInstance, field: "meetUpLocations")}</td>
+                            
+                        </tr>
+                    
                     
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="store.products.label" default="Products" /></td>
@@ -66,28 +105,16 @@
                             </td>
                             
                         </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="store.rating.label" default="Rating" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: storeInstance, field: "rating")}</td>
-                            
-                        </tr>
-                    
                     </tbody>
                 </table>
             </div>
             <div class="buttons">
                 <g:form>
                     <g:hiddenField name="id" value="${storeInstance?.id}" />
-					
-					<sec:ifAnyGranted roles="ROLE_VENDOR">
-						<g:if test="${userInstance.store == Store.get(params.id)}">
-							<g:actionSubmit class="btn" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" />
-						</g:if>
-					</sec:ifAnyGranted>
-                    <!--<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />-->
+                    <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
+                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </g:form>
             </div>
+        </div>
     </body>
 </html>

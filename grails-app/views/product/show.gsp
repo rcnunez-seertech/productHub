@@ -20,15 +20,9 @@
 				</sec:ifAnyGranted>
 				</div>
 			</div>
+				<g:form action="addToCart" >
                 <table>
                     <tbody>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="product.id.label" default="Id" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: productInstance, field: "id")}</td>
-                            
-                        </tr>
                     
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="product.productName.label" default="Product Name" /></td>
@@ -75,11 +69,38 @@
 						
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="product.image.label" default="Image" /></td>
-                            <td valign="top" class="value"><img src="${createLink(controller:'product', action:'image', id: params.id)}"/></td>
+                            <td valign="top" class="value"><img src="${createLink(controller:'product', action:'image', id: params.id)}" width="400"/></td>
                         </tr>
                     
                     </tbody>
                 </table>
+				<sec:ifAnyGranted roles="ROLE_CLIENT">
+				
+				<!--
+					<table>
+						<tr class="prop">
+							<td>Quantity</td>
+							<td><g:textField name="quantity" value="${fieldValue(bean: orderInstance, field: 'quantity')}" /></td>
+						</tr>
+						<tr class="prop">
+							<td valign="top" class="name">
+								<label for="customerNotes"><g:message code="order.customerNotes.label" default="Order Notes" /></label>
+								<br/><sub>Size, Colours, etc.</sub>
+							</td>
+							<td valign="top" class="value ${hasErrors(bean: orderInstance, field: 'customerNotes', 'errors')}">
+								<g:textField name="customerNotes" value="${orderInstance?.customerNotes}" />
+							</td>
+						</tr>
+					</table>
+				-->
+					<g:if test="${!(userInstance.cart.products).contains(productInstance)}">
+						<g:actionSubmit class="btn" action="addToCart" value="${message(code: 'default.button.addToCart.label', default: 'Add To Cart')}" />
+					</g:if>
+					<g:else>
+						<g:actionSubmit class="btn" action="removeFromCart" value="${message(code: 'default.button.removeFromCart.label', default: 'Remove From Cart')}" />
+					</g:else>
+				</sec:ifAnyGranted>
+				</g:form>
             <div class="buttons">
                 <g:form>
                     <g:hiddenField name="id" value="${productInstance?.id}" />
@@ -89,14 +110,7 @@
 						</g:if>
 					</sec:ifAnyGranted>
 					
-					<sec:ifAnyGranted roles="ROLE_CLIENT">
-						<g:if test="${!(userInstance.cart.products).contains(productInstance)}">
-						<g:actionSubmit class="btn" action="addToCart" value="${message(code: 'default.button.addToCart.label', default: 'Add To Cart')}" />
-						</g:if>
-						<g:else>
-						<g:actionSubmit class="btn" action="removeFromCart" value="${message(code: 'default.button.removeFromCart.label', default: 'Remove From Cart')}" />
-						</g:else>
-					</sec:ifAnyGranted>
+					
                     <!--<span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>-->
                 </g:form>
             </div>

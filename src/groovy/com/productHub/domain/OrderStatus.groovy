@@ -2,10 +2,11 @@ package com.productHub.domain
 
 public enum OrderStatus {
 
-	WAITING_APPROVAL('Waiting Approval'),
+	SENT_TO_SHOP('Sent to Shop'),
+	AWAITING_PAYMENT('Awaiting Payment'),
 	APPROVED('Approved'),
 	DELIVERED('Delivered'),
-	ACCEPTED('Accepted')
+	RECEIVED('Received')
 
 	String description
 

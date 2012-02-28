@@ -7,7 +7,7 @@ class Store {
 	String meetUpLocations
 	float rating
 	
-	static hasMany = [products: Product, orderforms: OrderForm]
+	static hasMany = [products: Product]
 	static belongsTo = [user: User]
 	
 	
@@ -18,8 +18,8 @@ class Store {
 	boolean acceptsMoneyTransfer = false
 
     static constraints = {
-		storeName (unique:true, blank:false, size: 5..20)
-		storeCode (unique:true, blank:false, size: 5..8)
+		storeName (unique:true, blank:false, size: 5..30)
+		storeCode (unique:true, blank:false, size: 5..15)
 		user (validator: { val, obj -> 
 			switch(obj.user.userRole) {
 				case RoleType.ROLE_ADMINISTRATOR:

@@ -8,17 +8,16 @@
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
-       
+        <div class="nav">
+            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
+            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
+        </div>
+        <div class="body">
             <h1><g:message code="default.list.label" args="[entityName]" /></h1>
-           <g:if test="${flash.message}">
-            <div class="alert-message block-message warning">${flash.message}</div>
+            <g:if test="${flash.message}">
+            <div class="message">${flash.message}</div>
             </g:if>
-			<div class="row">
-				<div class="alignright">
-				<g:if test="${userInstance.store == NULL}"><g:link class="btn" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></g:if>
-				</div>
-			</div>
-            <div class="zebra-striped">
+            <div class="list">
                 <table>
                     <thead>
                         <tr>
@@ -29,9 +28,11 @@
                         
                             <g:sortableColumn property="storeCode" title="${message(code: 'store.storeCode.label', default: 'Store Code')}" />
                         
-                            <g:sortableColumn property="description" title="${message(code: 'store.description.label', default: 'Description')}" />
+                            <th><g:message code="store.user.label" default="User" /></th>
                         
-                            <g:sortableColumn property="rating" title="${message(code: 'store.rating.label', default: 'Rating')}" />
+                            <g:sortableColumn property="accountDetails" title="${message(code: 'store.accountDetails.label', default: 'Account Details')}" />
+                        
+                            <g:sortableColumn property="acceptsDirect" title="${message(code: 'store.acceptsDirect.label', default: 'Accepts Direct')}" />
                         
                         </tr>
                     </thead>
@@ -45,9 +46,11 @@
                         
                             <td>${fieldValue(bean: storeInstance, field: "storeCode")}</td>
                         
-                            <td>${fieldValue(bean: storeInstance, field: "description")}</td>
+                            <td>${fieldValue(bean: storeInstance, field: "user")}</td>
                         
-                            <td>${fieldValue(bean: storeInstance, field: "rating")}</td>
+                            <td>${fieldValue(bean: storeInstance, field: "accountDetails")}</td>
+                        
+                            <td><g:formatBoolean boolean="${storeInstance.acceptsDirect}" /></td>
                         
                         </tr>
                     </g:each>
@@ -57,5 +60,6 @@
             <div class="paginateButtons">
                 <g:paginate total="${storeInstanceTotal}" />
             </div>
+        </div>
     </body>
 </html>

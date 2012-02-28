@@ -39,7 +39,7 @@ class User {
             )
         username  (blank:false, size:5..15, matches:/[\S]+/, unique:true)
         emailAddress (email:true, blank:false, nullable:false, unique:true)
-        contactNumber (matches:/[\d]+/)
+        contactNumber (nullable:false, blank:false)
         userRole (nullable:false)
 		store (nullable:true)
 		cart (nullable:true, validator: { val, obj ->

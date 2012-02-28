@@ -15,7 +15,7 @@ class StoreController {
         redirect(action: "list", params: params)
     }
 
-	
+
     def list = {
 		def userInstance = User.findByUsername(springSecurityService.authentication.name)
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
@@ -58,7 +58,7 @@ class StoreController {
 			redirect(action: "create")
 		}
 	}
-	
+
     def show = {
 		def userInstance = User.findByUsername(springSecurityService.authentication.name)
         def storeInstance = Store.get(params.id)
@@ -75,7 +75,7 @@ class StoreController {
     def edit = {
 		def userInstance = User.findByUsername(springSecurityService.authentication.name)
         def storeInstance = Store.get(params.id)
-		
+
 		if(userInstance.store == storeInstance) {
 			if (!storeInstance) {
 				flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'store.label', default: 'Store'), params.id])}"
