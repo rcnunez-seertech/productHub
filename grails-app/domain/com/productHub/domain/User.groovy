@@ -14,6 +14,7 @@ class User {
     RoleType userRole
 	
 	Store store
+	Wishlist wishlist
 	String shippingAddress
 	
 	byte[] avatar
@@ -42,6 +43,29 @@ class User {
         userRole (nullable:false)
 		store (nullable:true)
 		shippingAddress (nullable:true, validator:
+			{ val, obj ->
+				switch(obj.userRole) {
+				case RoleType.ROLE_ADMINISTRATOR:
+				case RoleType.ROLE_VENDOR:
+					return true
+					break
+				
+				case RoleType.ROLE_CLIENT:
+                boolean isValid=false
+                if(val) {
+                    isValid=true
+                }
+
+                if (isValid ==false) {
+                    return ['noaddress']
+                }
+				return isValid
+                break
+				}
+			}
+		)
+		
+		wishlist (nullable:true, validator:
 			{ val, obj ->
 				switch(obj.userRole) {
 				case RoleType.ROLE_ADMINISTRATOR:

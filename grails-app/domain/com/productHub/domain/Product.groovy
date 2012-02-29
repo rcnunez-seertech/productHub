@@ -10,6 +10,7 @@ class Product {
 	byte[] image
 	
 	static belongsTo = [store: Store]
+	static hasMany = [comments: Comment]
 
     static constraints = {
 		productName(unique:true, blank:false)

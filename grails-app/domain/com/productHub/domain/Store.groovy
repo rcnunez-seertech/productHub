@@ -5,9 +5,8 @@ class Store {
 	String storeCode
 	String description
 	String meetUpLocations
-	float rating
 	
-	static hasMany = [products: Product]
+	static hasMany = [products: Product, comments:Comment]
 	static belongsTo = [user: User]
 	
 	
