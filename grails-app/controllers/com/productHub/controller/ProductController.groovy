@@ -120,53 +120,36 @@ class ProductController {
         }
     }
 	
+	
 	@Secured(['ROLE_CLIENT'])
     def addToCart = {
-		/*
-		def productInstance = Product.get(params.id)
 		def userInstance = User.findByUsername(springSecurityService.authentication.name)
-		
-		
-			if(!userInstance.cart.stores.contains(productInstance.store)) {
-				userInstance.cart.addToStores(productInstance.store)
-			}
-			userInstance.cart.addToProducts(productInstance)
-			userInstance.confirmPassword = userInstance.password
-			userInstance.save(flush:true, failOnError:true)
-		
-		//def orderInstance = new Order()
-		//orderInstance.properties = params
-		//println orderInstance.properties
-		
-		println productInstance
-		//orderInstance.product = Product.get(params.id)
-		
-		//orderInstance.customer = userInstance
-		//orderInstance.save(flush:true, failOnError:true)
-		
-        //flash.message = "Product has been added to your cart."
-		redirect(action: "show", id: params.id)
-		*/
-    }
-	
-	@Secured(['ROLE_CLIENT'])
-	def removeFromCart = {
 		def productInstance = Product.get(params.id)
-		def userInstance = User.findByUsername(springSecurityService.authentication.name)
-		userInstance.cart.removeFromProducts(productInstance)
-		def products = (userInstance.cart.products).findAll{it.store == productInstance.store}
+		def cartInstance = new Cart()
 		
-		if(!products) {
-			userInstance.cart.removeFromStores(productInstance.store)
-			println "removed " + productInstance.store + "from stores"
+		if( !userInstance.carts.findByStore(productInstance.store) ) {
+			cartInstance.user = userInstance
+			cartInstance.store = productInstance.store
+			userInstance.addToCarts(cartInstance.save(flush:true, failOnError:true))
+			println "addedtocarts" + userInstance.carts
 		}
 		
+		def orderInstance = new ProductOrder()
+		orderInstance.properties = params
+		orderInstance.product = productInstance
+		orderInstance.cart = userInstance.cart
+		orderInstance.save(flush:true, failOnError:true)
+		
+		
+		
+		userInstance.cart.addToOrders(orderInstance)
 		userInstance.confirmPassword = userInstance.password
 		userInstance.save(flush:true, failOnError:true)
+		println userInstance.cart.stores
+		println userInstance.cart.orders
+		redirect(action: "show", controller: "cart", id: userInstance.id)
 		
-		println "Stores in cart: " + userInstance.cart.stores
-		flash.message = "Product has been removed from your cart."
-		redirect(action: "show", id: productInstance.id)
-	}
+    }
 	
+		
 }

@@ -20,7 +20,7 @@
 				</sec:ifAnyGranted>
 				</div>
 			</div>
-				<g:form action="addToCart" >
+				
                 <table>
                     <tbody>
                     
@@ -75,8 +75,7 @@
                     </tbody>
                 </table>
 				<sec:ifAnyGranted roles="ROLE_CLIENT">
-				
-				<!--
+				<g:form>
 					<table>
 						<tr class="prop">
 							<td>Quantity</td>
@@ -89,18 +88,16 @@
 							</td>
 							<td valign="top" class="value ${hasErrors(bean: orderInstance, field: 'customerNotes', 'errors')}">
 								<g:textField name="customerNotes" value="${orderInstance?.customerNotes}" />
+								<g:hiddenField name="id" value="${productInstance?.id}" />
 							</td>
 						</tr>
 					</table>
-				-->
-					<g:if test="${!(userInstance.cart.products).contains(productInstance)}">
+					
 						<g:actionSubmit class="btn" action="addToCart" value="${message(code: 'default.button.addToCart.label', default: 'Add To Cart')}" />
-					</g:if>
-					<g:else>
-						<g:actionSubmit class="btn" action="removeFromCart" value="${message(code: 'default.button.removeFromCart.label', default: 'Remove From Cart')}" />
-					</g:else>
-				</sec:ifAnyGranted>
+					
 				</g:form>
+				</sec:ifAnyGranted>
+				
             <div class="buttons">
                 <g:form>
                     <g:hiddenField name="id" value="${productInstance?.id}" />

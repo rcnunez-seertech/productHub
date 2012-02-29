@@ -15,7 +15,10 @@ class CartController {
     def list = {
 		def userInstance = User.findByUsername(springSecurityService.authentication.name)
 		if(userInstance?.userRole == RoleType.ROLE_CLIENT) {
-			redirect(action: "show", id: userInstance.cart.id)
+			if(!userInstance?.carts) {
+				flash.message = "Your cart is empty!"
+			}
+				redirect(action: "show")
 		} else {
 			params.max = Math.min(params.max ? params.int('max') : 10, 100)
 			[cartInstanceList: Cart.list(params), cartInstanceTotal: Cart.count()]
@@ -41,13 +44,12 @@ class CartController {
     }
 
     def show = {
-        def cartInstance = Cart.get(params.id)
-        if (!cartInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'cart.label', default: 'Cart'), params.id])}"
-            redirect(action: "list")
-        }
-        else {
-            [cartInstance: cartInstance]
+		def userInstance = User.findByUsername(springSecurityService.authentication.name)
+        def carts = userInstance.carts
+        if (!carts) {
+			flash.message = "Your cart is empty!"
+		} else {
+            [carts: cartInstance]
         }
     }
 

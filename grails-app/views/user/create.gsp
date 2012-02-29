@@ -105,6 +105,14 @@
                                     <g:textField name="contactNumber" value="${userInstance?.contactNumber}" />
                                 </td>
                             </tr>
+							<tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="shippingAddress"><g:message code="user.shippingAddress.label" default="Shipping Address" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'shippingAddress', 'errors')}">
+                                    <g:textField name="shippingAddress" value="${userInstance?.shippingAddress}" />
+                                </td>
+                            </tr>
                         </fieldset>    
                         </tbody>
                     </table>

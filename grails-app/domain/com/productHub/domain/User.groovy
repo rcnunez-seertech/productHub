@@ -14,10 +14,7 @@ class User {
     RoleType userRole
 	
 	Store store
-	Cart cart
-	
 	String shippingAddress
-	
 	
 	byte[] avatar
     boolean enabled = true
@@ -26,7 +23,9 @@ class User {
     boolean passwordExpired = false
 
     String confirmPassword
-
+	
+	static hasMany = [carts : Cart]
+	
 	static constraints = {
 		firstName (blank:false)
         lastName  (blank:false)
@@ -42,27 +41,6 @@ class User {
         contactNumber (nullable:false, blank:false)
         userRole (nullable:false)
 		store (nullable:true)
-		cart (nullable:true, validator: { val, obj ->
-            switch(obj.userRole) {
-			case RoleType.ROLE_ADMINISTRATOR:
-            case RoleType.ROLE_VENDOR:
-                return true
-                break
-
-            case RoleType.ROLE_CLIENT:
-                boolean isValid=false
-                if(val) {
-                    isValid=true
-                }
-
-                if (isValid ==false) {
-                    return ['nocart']
-                }
-				return isValid
-                break
-            }
-        })
-		
 		shippingAddress (nullable:true, validator:
 			{ val, obj ->
 				switch(obj.userRole) {
