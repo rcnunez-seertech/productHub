@@ -46,11 +46,7 @@ class CartController {
     def show = {
 		def userInstance = User.findByUsername(springSecurityService.authentication.name)
         def carts = userInstance.carts
-        if (!carts) {
-			flash.message = "Your cart is empty!"
-		} else {
-            [carts: cartInstance]
-        }
+        [userInstance: userInstance]
     }
 
     def edit = {

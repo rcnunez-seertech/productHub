@@ -126,27 +126,43 @@ class ProductController {
 		def userInstance = User.findByUsername(springSecurityService.authentication.name)
 		def productInstance = Product.get(params.id)
 		def cartInstance = new Cart()
+		def orderInstance = new ProductOrder()
+		def orderExists = false
 		
-		if( !userInstance.carts.findByStore(productInstance.store) ) {
+		if(!userInstance.carts) {
 			cartInstance.user = userInstance
 			cartInstance.store = productInstance.store
 			userInstance.addToCarts(cartInstance.save(flush:true, failOnError:true))
-			println "addedtocarts" + userInstance.carts
+		} else if(userInstance?.carts && !(userInstance?.carts).find{it?.store == productInstance?.store}) {
+			cartInstance.user = userInstance
+			cartInstance.store = productInstance.store
+			userInstance.addToCarts(cartInstance.save(flush:true, failOnError:true))
+		} else {
+			cartInstance = (userInstance?.carts).find{it?.store == productInstance?.store}
+			if(cartInstance.orders.find{it.product == productInstance}) {
+				orderInstance = cartInstance.orders.find{it.product == productInstance}
+				orderExists = true
+			}
 		}
 		
-		def orderInstance = new ProductOrder()
-		orderInstance.properties = params
+		orderInstance.quantity = Integer.parseInt(params.quantity)
+		orderInstance.clientNotes = params.clientNotes
 		orderInstance.product = productInstance
-		orderInstance.cart = userInstance.cart
 		orderInstance.save(flush:true, failOnError:true)
 		
-		
-		
-		userInstance.cart.addToOrders(orderInstance)
+		cartInstance.user = userInstance
+		cartInstance.store = productInstance.store
+		cartInstance.addToOrders(orderInstance)
+		cartInstance.save(flush:true, failOnError:true)
 		userInstance.confirmPassword = userInstance.password
 		userInstance.save(flush:true, failOnError:true)
-		println userInstance.cart.stores
-		println userInstance.cart.orders
+		
+		if(orderExists) {
+			flash.message = productInstance.productName + "'s order details have been updated."
+		} else {
+			flash.message = productInstance.productName + " has been added to your cart."
+		}
+		
 		redirect(action: "show", controller: "cart", id: userInstance.id)
 		
     }

@@ -20,7 +20,7 @@
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="cart.user.label" default="User" /></td>
                             
-                            <td valign="top" class="value"><g:link controller="user" action="show" id="${cartInstance?.user?.id}">${cartInstance?.user?.username.encodeAsHTML()}</g:link></td>
+                            <td valign="top" class="value"><g:link controller="user" action="show" id="${userInstance?.id}">${userInstance?.username.encodeAsHTML()}</g:link></td>
                             
                         </tr>
                     
@@ -30,13 +30,21 @@
                             <td valign="top" style="text-align: left;" class="value">
             </sec:ifAnyGranted>  
                                 <g:each in="${userInstance?.carts}" var="s" status="i">
-										<table class="zebra-striped">
-											<tr><th>${s.store.storeName}</th></tr>
-											<tr><td><g:each in="${ (s?.orders) }" var="p">
-												<li><g:link controller="product" action="show" id="${p.id}">${p?.productName.encodeAsHTML()}</g:link></li>
-											</g:each></td></tr>
+										<table>
+											<tr><th colspan="3">${s.store.storeName}</th></tr>
+											<tr><td>Product name</td><td>Quantity</td><td>Other Notes</td></tr>
+											<g:each in="${ (s?.orders) }" var="p">
+											<tr>
+											<td>
+												<g:link controller="productOrder" action="show" id="${p.id}">${p?.product.productName.encodeAsHTML()}</g:link>
+											</td>
+											<td>${p?.quantity.encodeAsHTML()}</td>
+											<td>${p?.clientNotes?.encodeAsHTML()}</td>
+											</tr>
+											</g:each>
 										</table>
-									</ul>
+										<hr/>
+									
                                 </g:each>
             <sec:ifAnyGranted roles="ROLE_ADMINISTRATOR">                    
                             </td>
@@ -48,7 +56,6 @@
 			</sec:ifAnyGranted>
             <div class="buttons">
                 <g:form>
-                    <g:hiddenField name="id" value="${cartInstance?.id}" />
 					<g:if test="${userInstance?.carts}">
 						<g:actionSubmit class="btn" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" />
 					</g:if>

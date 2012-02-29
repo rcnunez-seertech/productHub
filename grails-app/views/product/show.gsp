@@ -87,7 +87,7 @@
 								<br/><sub>Size, Colours, etc.</sub>
 							</td>
 							<td valign="top" class="value ${hasErrors(bean: orderInstance, field: 'customerNotes', 'errors')}">
-								<g:textField name="customerNotes" value="${orderInstance?.customerNotes}" />
+								<g:textField name="clientNotes" value="${orderInstance?.clientNotes}" />
 								<g:hiddenField name="id" value="${productInstance?.id}" />
 							</td>
 						</tr>
