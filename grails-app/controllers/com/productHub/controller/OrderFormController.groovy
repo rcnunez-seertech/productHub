@@ -1,8 +1,8 @@
 package com.productHub.controller
 import com.productHub.domain.*
-
+import grails.plugins.springsecurity.Secured
 class OrderFormController {
-
+	def springSecurityService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index = {
@@ -14,14 +14,22 @@ class OrderFormController {
         [orderFormInstanceList: OrderForm.list(params), orderFormInstanceTotal: OrderForm.count()]
     }
 
-    
+    def myOrders = {
+		def userInstance = User.findByUsername(springSecurityService.authentication.name)
+		def orderInstances = OrderForm.findAllByCustomer(userInstance)
+		[orderInstances: orderInstances, userInstance: userInstance]
+	}
 
     def save = {
+		def userInstance = User.findByUsername(springSecurityService.authentication.name)
         def orderFormInstance = new OrderForm(params)
 		def cartInstance = Cart.get(params.cartInstance)
 		orderFormInstance.cart = cartInstance
 		orderFormInstance.store = cartInstance.store
+		orderFormInstance.customer = userInstance
         if (orderFormInstance.save(flush: true)) {
+			orderFormInstance.cart.isCheckedOut = true
+			orderFormInstance.cart.save(flush:true, failOnError:true)
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'orderForm.label', default: 'OrderForm'), orderFormInstance.id])}"
             redirect(action: "show", id: orderFormInstance.id)
         }
@@ -101,11 +109,13 @@ class OrderFormController {
 	def checkout = {
 		def cartInstance = Cart.get(params.id)
 		def orderFormInstance = new OrderForm()
+		def userInstance = User.findByUsername(springSecurityService.authentication.name)
 		
 		orderFormInstance.payment = params.payment
 		orderFormInstance.paymentNotes = params.paymentNotes
 		orderFormInstance.cart = cartInstance
 		orderFormInstance.store = cartInstance.store
+		orderFormInstance.customer = userInstance
 		
 		return [orderFormInstance: orderFormInstance, cartInstance: cartInstance]
 	

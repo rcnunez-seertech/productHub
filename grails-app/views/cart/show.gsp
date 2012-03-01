@@ -30,7 +30,7 @@
                             <td valign="top" style="text-align: left;" class="value">
             </sec:ifAnyGranted>  
                                 <g:each in="${userInstance?.carts}" var="s" status="i">
-									
+									<g:if test="${!s.isCheckedOut}">
 										<table>
 											<tr><th colspan="3">${s.store.storeName}</th></tr>
 											<tr><td>Product name</td><td>Quantity</td><td>Other Notes</td></tr>
@@ -50,6 +50,7 @@
 												</tr>
 											
 										</table>
+									</g:if>
 											
 										<hr/>
 									
