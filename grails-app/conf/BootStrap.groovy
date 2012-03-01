@@ -41,10 +41,13 @@ class BootStrap {
 			user = new User(firstName: "Nina", lastName: "Castillo", username: "client", password: "password", contactNumber:"1293", confirmPassword: "password", emailAddress: "ninabeleen@live.com", shippingAddress:"Yes", userRole: RoleType.ROLE_CLIENT, wishlist: new Wishlist(user: user).save(flush:true, failOnError:true)).save(flush:true, failOnError:true)
 			role = Role.findByAuthority(user.userRole?.getKey())
 			UserRole.create user, role, true
+			user = new User(firstName: "JS", lastName: "Virtusio", username: "vendor", password: "password", contactNumber:"1293", confirmPassword: "password", emailAddress: "icanhas@live.com", shippingAddress:"Wat", userRole: RoleType.ROLE_VENDOR).save(flush:true, failOnError:true)
+			role = Role.findByAuthority(user.userRole?.getKey())
+			UserRole.create user, role, true
 			
 		}
 		
-		if(User.count() == 2) {
+		if(User.count() == 3) {
 			println "ACCOUNTS SAVED!"
 		} else {
 			println "Error saving admin"

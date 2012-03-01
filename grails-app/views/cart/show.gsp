@@ -42,12 +42,13 @@
 												<td>${p?.quantity.encodeAsHTML()}</td>
 												<td>${p?.clientNotes?.encodeAsHTML()}</td>
 												</tr>
+											</g:each>
 												<tr>
 													<td></td>
 													<td></td>
-													<td><g:link class="btn" controller="productOrder" action="checkout" id="${s?.id}">Checkout</g:link></td>
+													<td><g:link class="btn" controller="orderForm" action="checkout" id="${s?.id}">Checkout</g:link></td>
 												</tr>
-											</g:each>
+											
 										</table>
 											
 										<hr/>

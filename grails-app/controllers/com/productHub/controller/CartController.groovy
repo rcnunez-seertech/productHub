@@ -107,7 +107,5 @@ class CartController {
         }
     }
 	
-	def checkout = {
-		println params.id
-	}
+	
 }

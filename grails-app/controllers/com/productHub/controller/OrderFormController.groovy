@@ -14,20 +14,19 @@ class OrderFormController {
         [orderFormInstanceList: OrderForm.list(params), orderFormInstanceTotal: OrderForm.count()]
     }
 
-    def create = {
-        def orderFormInstance = new OrderForm()
-        orderFormInstance.properties = params
-        return [orderFormInstance: orderFormInstance]
-    }
+    
 
     def save = {
         def orderFormInstance = new OrderForm(params)
+		def cartInstance = Cart.get(params.cartInstance)
+		orderFormInstance.cart = cartInstance
+		orderFormInstance.store = cartInstance.store
         if (orderFormInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'orderForm.label', default: 'OrderForm'), orderFormInstance.id])}"
             redirect(action: "show", id: orderFormInstance.id)
         }
         else {
-            render(view: "create", model: [orderFormInstance: orderFormInstance])
+            render(view: "checkout", model: [orderFormInstance: orderFormInstance])
         }
     }
 
@@ -98,4 +97,17 @@ class OrderFormController {
             redirect(action: "list")
         }
     }
+	
+	def checkout = {
+		def cartInstance = Cart.get(params.id)
+		def orderFormInstance = new OrderForm()
+		
+		orderFormInstance.payment = params.payment
+		orderFormInstance.paymentNotes = params.paymentNotes
+		orderFormInstance.cart = cartInstance
+		orderFormInstance.store = cartInstance.store
+		
+		return [orderFormInstance: orderFormInstance, cartInstance: cartInstance]
+	
+	}
 }

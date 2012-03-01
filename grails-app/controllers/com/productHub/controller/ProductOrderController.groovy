@@ -99,7 +99,4 @@ class ProductOrderController {
         }
     }
 	
-	def checkout = {
-		println params.id + " oh "
-	}
 }
