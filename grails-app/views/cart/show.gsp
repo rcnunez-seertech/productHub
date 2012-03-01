@@ -30,19 +30,26 @@
                             <td valign="top" style="text-align: left;" class="value">
             </sec:ifAnyGranted>  
                                 <g:each in="${userInstance?.carts}" var="s" status="i">
+									
 										<table>
 											<tr><th colspan="3">${s.store.storeName}</th></tr>
 											<tr><td>Product name</td><td>Quantity</td><td>Other Notes</td></tr>
 											<g:each in="${ (s?.orders) }" var="p">
-											<tr>
-											<td>
-												<g:link controller="productOrder" action="show" id="${p.id}">${p?.product.productName.encodeAsHTML()}</g:link>
-											</td>
-											<td>${p?.quantity.encodeAsHTML()}</td>
-											<td>${p?.clientNotes?.encodeAsHTML()}</td>
-											</tr>
+												<tr>
+												<td>
+													<g:link controller="productOrder" action="show" id="${p.id}">${p?.product.productName.encodeAsHTML()}</g:link>
+												</td>
+												<td>${p?.quantity.encodeAsHTML()}</td>
+												<td>${p?.clientNotes?.encodeAsHTML()}</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td></td>
+													<td><g:link class="btn" controller="productOrder" action="checkout" id="${s?.id}">Checkout</g:link></td>
+												</tr>
 											</g:each>
 										</table>
+											
 										<hr/>
 									
                                 </g:each>

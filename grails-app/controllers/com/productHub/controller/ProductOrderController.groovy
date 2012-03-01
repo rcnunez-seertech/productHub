@@ -98,4 +98,8 @@ class ProductOrderController {
             redirect(action: "list")
         }
     }
+	
+	def checkout = {
+		println params.id + " oh "
+	}
 }

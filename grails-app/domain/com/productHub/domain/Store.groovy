@@ -6,9 +6,10 @@ class Store {
 	String description
 	String meetUpLocations
 	
-	static hasMany = [products: Product, comments:Comment]
+	static hasMany = [products: Product, comments:Comment, orders: OrderForm]
 	static belongsTo = [user: User]
 	
+	byte[] logo
 	
 	String accountDetails
 	
@@ -41,6 +42,8 @@ class Store {
 					break
 			}
 		})
+		orders(nullable:true)
+		logo(nullable:true)
 		
 	accountDetails(nullable:true, validator: {val, obj ->
 		if(obj.acceptsMoneyTransfer && !val) {

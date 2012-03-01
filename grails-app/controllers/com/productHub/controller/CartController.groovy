@@ -106,4 +106,8 @@ class CartController {
             redirect(action: "list")
         }
     }
+	
+	def checkout = {
+		println params.id
+	}
 }
