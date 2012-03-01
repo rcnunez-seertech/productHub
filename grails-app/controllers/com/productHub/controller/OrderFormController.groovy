@@ -1,6 +1,8 @@
 package com.productHub.controller
 import com.productHub.domain.*
 import grails.plugins.springsecurity.Secured
+
+@Secured(['IS_AUTHENTICATED_FULLY'])
 class OrderFormController {
 	def springSecurityService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -10,8 +12,13 @@ class OrderFormController {
     }
 
     def list = {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [orderFormInstanceList: OrderForm.list(params), orderFormInstanceTotal: OrderForm.count()]
+        def userInstance = User.findByUsername(springSecurityService.authentication.name)
+		if(userInstance?.userRole == RoleType.ROLE_CLIENT || userInstance?.userRole == RoleType.ROLE_VENDOR) {
+				redirect(action: "show")
+		} else {
+			params.max = Math.min(params.max ? params.int('max') : 10, 100)
+			[cartInstanceList: Cart.list(params), cartInstanceTotal: Cart.count()]
+		}
     }
 
     def myOrders = {
@@ -27,9 +34,17 @@ class OrderFormController {
 		orderFormInstance.cart = cartInstance
 		orderFormInstance.store = cartInstance.store
 		orderFormInstance.customer = userInstance
+		
         if (orderFormInstance.save(flush: true)) {
 			orderFormInstance.cart.isCheckedOut = true
 			orderFormInstance.cart.save(flush:true, failOnError:true)
+			
+			orderFormInstance.store.addToOrders(orderFormInstance)
+			orderFormInstance.store.save(flush:true, failOnError:true)
+			
+			userInstance.addToOrders(orderFormInstance)
+			userInstance.confirmPassword = userInstance.password
+			userInstance.save(flush:true, failOnError:true)
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'orderForm.label', default: 'OrderForm'), orderFormInstance.id])}"
             redirect(action: "show", id: orderFormInstance.id)
         }
@@ -39,10 +54,17 @@ class OrderFormController {
     }
 
     def show = {
-        def orderFormInstance = OrderForm.get(params.id)
+		def userInstance = User.findByUsername(springSecurityService.authentication.name)
+		def orderFormInstance = null
+		if(userInstance?.userRole == RoleType.ROLE_CLIENT) {
+			orderFormInstance = userInstance.orders
+		} else if(userInstance?.userRole == RoleType.ROLE_VENDOR) {
+			orderFormInstance = userInstance.store.orders
+		}
+        
         if (!orderFormInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'orderForm.label', default: 'OrderForm'), params.id])}"
-            redirect(action: "list")
+            
         }
         else {
             [orderFormInstance: orderFormInstance]

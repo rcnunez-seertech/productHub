@@ -62,7 +62,7 @@
 						<hr />
 						<sec:ifAnyGranted roles="ROLE_CLIENT">
 							<a href="/productHub/cart/index">My Cart</a>
-							<a href="/productHub/orderForm/myOrders">My Orders</a>
+							<a href="/productHub/orderForm/index">My Orders</a>
 						</sec:ifAnyGranted>
 
 						<sec:ifAnyGranted roles="ROLE_ADMINISTRATOR">
@@ -71,6 +71,7 @@
 						
 						<sec:ifAnyGranted roles="ROLE_VENDOR">
 							<a href="/productHub/store/myStore/">My Store</a>
+							<a href="/productHub/orderForm/index">My Orders</a>
 						</sec:ifAnyGranted>
 						
 						<sec:ifNotLoggedIn>

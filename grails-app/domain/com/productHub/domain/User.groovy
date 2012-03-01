@@ -25,7 +25,7 @@ class User {
 
     String confirmPassword
 	
-	static hasMany = [carts : Cart]
+	static hasMany = [carts : Cart, orders: OrderForm]
 	
 	static constraints = {
 		firstName (blank:false)
