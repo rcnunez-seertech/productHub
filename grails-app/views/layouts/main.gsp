@@ -3,17 +3,16 @@
     <head>
         <title><g:layoutTitle default="Grails" /></title>
         <link rel="stylesheet" href="${resource(dir:'css',file:'bootstrap.css')}" />
+        <link rel="stylesheet" href="${resource(dir:'css',file:'demo_table.css')}" />
         <link rel="shortcut icon" href="${resource(dir:'images',file:'favicon.ico')}" type="image/x-icon" />
         <g:layoutHead />
+		<g:javascript src="jQuery.js" />
         <g:javascript library="application" />
-		<script type="text/javascript" src="${resource(dir:'js',file:'bootstrap-dropdown.js')}"></script>
 		<g:javascript src="bootstrap-dropdown.js" />
+		<g:javascript src="jquery.dataTables.min.js" />
     </head>
     <body>
-		<g:javascript>
-			$('#topbar').dropdown();
-		</g:javascript>
-	
+		
 		<div class="topbar">
 			<div class="fill">
 				<div class="container">
@@ -25,6 +24,11 @@
 						<li><a href="/productHub/user/list">Users</a></li>
 						
 					</ul>
+					
+				
+					
+					
+					
 					<ul class="nav secondary-nav">
 						<sec:ifLoggedIn>
 								<li class="dropdown" data-dropdown="dropdown">
@@ -42,6 +46,11 @@
 							<li><a href="/productHub/login/index">Login</a></li>
 					  </sec:ifNotLoggedIn>
 				  </ul>
+				  
+				  
+				  
+				  
+				  
 				</div>
 			</div>
 		</div>
@@ -87,6 +96,9 @@
 			</div>
 		</div>
 	
-        
+        <g:javascript>
+			$('.dropdown-toggle').dropdown();
+			$('.zebra-striped').dataTable();
+		</g:javascript>
     </body>
 </html>

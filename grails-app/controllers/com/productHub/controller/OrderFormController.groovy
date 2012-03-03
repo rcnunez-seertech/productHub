@@ -64,7 +64,6 @@ class OrderFormController {
         
         if (!orderFormInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'orderForm.label', default: 'OrderForm'), params.id])}"
-            
         }
         else {
             [orderFormInstance: orderFormInstance]
