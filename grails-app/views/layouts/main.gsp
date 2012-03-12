@@ -73,7 +73,7 @@
 						<h2>Navigation</h2>
 						<sec:ifAnyGranted roles="ROLE_CLIENT">
 							<a href="/productHub/cart/index">My Cart</a>
-							<br/><a href="/productHub/orderForm/index">My Orders</a>
+							<br/><a href="/productHub/orderForm/myOrders">My Orders</a>
 						</sec:ifAnyGranted>
 
 						<sec:ifAnyGranted roles="ROLE_ADMINISTRATOR">
@@ -82,7 +82,7 @@
 						
 						<sec:ifAnyGranted roles="ROLE_VENDOR">
 							<a href="/productHub/store/myStore/" class="link">My Store</a>
-							<br/><a href="/productHub/orderForm/index" class="link">My Orders</a>
+							<br/><a href="/productHub/orderForm/myOrders" class="link">My Orders</a>
 						</sec:ifAnyGranted>
 						
 						<sec:ifNotLoggedIn>

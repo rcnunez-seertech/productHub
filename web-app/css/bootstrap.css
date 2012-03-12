@@ -254,6 +254,18 @@ body {
 	text-decoration: none;
 }
 
+.orders {
+	border: 1px solid #eee;
+	padding: 20px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	background-color: #DDDDDD;
+}
+
+.orders .details{
+	background-color: #FFF;
+}
 
 .container-fluid:before, .container-fluid:after {
   display: table;

@@ -136,7 +136,7 @@ td.errors textarea {
 }
 
 /* TABLES */
-
+/*
 table {
     border: 1px solid #ccc;
     width: 100%
@@ -183,7 +183,7 @@ th.desc a {
 .even {
     background: #fff;
 }
-
+*/
 /* LIST */
 
 .list table {
@@ -239,7 +239,7 @@ th.desc a {
 }
 
 /* ACTION BUTTONS */
-
+/*
 .buttons {
     background: #fff url(../images/skin/shadow.jpg) bottom repeat-x;
     border: 1px solid #ccc;

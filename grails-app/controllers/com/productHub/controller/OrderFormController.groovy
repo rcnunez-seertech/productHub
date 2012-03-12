@@ -21,11 +21,7 @@ class OrderFormController {
 		}
     }
 
-    def myOrders = {
-		def userInstance = User.findByUsername(springSecurityService.authentication.name)
-		def orderInstances = OrderForm.findAllByCustomer(userInstance)
-		[orderInstances: orderInstances, userInstance: userInstance]
-	}
+    
 
 	@Secured(['ROLE_CLIENT'])
     def save = {
@@ -53,6 +49,18 @@ class OrderFormController {
             render(view: "checkout", model: [orderFormInstance: orderFormInstance])
         }
     }
+	
+	def myOrders = {
+		def userInstance = User.findByUsername(springSecurityService.authentication.name)
+		def orderForms
+		if(userInstance?.userRole == RoleType.ROLE_CLIENT) {
+			orderForms = OrderForm.findAllByCustomer(userInstance)
+		} else if(userInstance?.userRole == RoleType.ROLE_VENDOR) {
+			orderForms = userInstance.store.orders
+		}
+		
+		[orderForms: orderForms]
+	}
 
     def show = {
 		def userInstance = User.findByUsername(springSecurityService.authentication.name)
