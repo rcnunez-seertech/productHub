@@ -210,7 +210,7 @@ th:active {
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * DataTables row classes
- */
+ 
 table.display tr.odd.gradeA {
 	background-color: #ddffdd;
 }
@@ -251,7 +251,7 @@ tr.odd {
 tr.even {
 	background-color: white;
 }
-
+*/
 
 
 
@@ -296,13 +296,13 @@ tfoot input.search_init {
 }
 
 td.group {
-	background-color: #d1cfd0;
+	/*background-color: #d1cfd0;*/
 	border-bottom: 2px solid #A19B9E;
 	border-top: 2px solid #A19B9E;
 }
 
 td.details {
-	background-color: #d1cfd0;
+	/*background-color: #d1cfd0;*/
 	border: 2px solid #A19B9E;
 }
 
@@ -362,7 +362,7 @@ table.display tr.odd.row_selected td {
 /*
  * Sorting classes for columns
  */
-/* For the standard odd/even */
+/* For the standard odd/even 
 tr.odd td.sorting_1 {
 	background-color: #D3D6FF;
 }
@@ -386,7 +386,7 @@ tr.even td.sorting_2 {
 tr.even td.sorting_3 {
 	background-color: #F9F9FF;
 }
-
+*/
 
 /* For the Conditional-CSS grading rows */
 /*

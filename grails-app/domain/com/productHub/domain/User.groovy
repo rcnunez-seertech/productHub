@@ -42,6 +42,7 @@ class User {
         contactNumber (nullable:false, blank:false)
         userRole (nullable:false)
 		store (nullable:true)
+		carts(nullable:true)
 		shippingAddress (nullable:true, validator:
 			{ val, obj ->
 				switch(obj.userRole) {

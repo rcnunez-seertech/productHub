@@ -22,14 +22,14 @@
                 <table class="zebra-striped">
                     <thead>
                         <tr>
-							<g:sortableColumn property="username" title="${message(code: 'user.username.label', default: 'Username')}" />
+							<th>Username</th>
                         
-                            <g:sortableColumn property="emailAddress" title="${message(code: 'user.emailAddress.label', default: 'Email Address')}" />
+                            <th>E-mail Address</th>
 							
 							
-                            <g:sortableColumn property="firstName" title="${message(code: 'user.firstName.label', default: 'First Name')}" />
+                            <th>First Name</th>
                         
-                            <g:sortableColumn property="lastName" title="${message(code: 'user.lastName.label', default: 'Last Name')}" />
+                            <th>Last Name</th>
                         
                         
                             

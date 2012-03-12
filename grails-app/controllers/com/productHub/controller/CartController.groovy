@@ -90,7 +90,6 @@ class CartController {
         }
     }
 
-	@Secured(['ROLE_ADMINISTRATOR'])
     def delete = {
         def cartInstance = Cart.get(params.id)
         if (cartInstance) {
@@ -101,7 +100,7 @@ class CartController {
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'cart.label', default: 'Cart'), params.id])}"
-                redirect(action: "show", id: params.id)
+                redirect(action: "list")
             }
         }
         else {

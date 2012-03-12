@@ -45,8 +45,11 @@
 											</g:each>
 												<tr>
 													<td></td>
-													<td></td>
 													<td><g:link class="btn" controller="orderForm" action="checkout" id="${s?.id}">Checkout</g:link></td>
+													<td><g:form>
+															<g:actionSubmit class="btn" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" />
+															<g:hiddenField name="id" value="${s.id}" />
+														</g:form></td>
 												</tr>
 											
 										</table>

@@ -27,6 +27,7 @@ class OrderFormController {
 		[orderInstances: orderInstances, userInstance: userInstance]
 	}
 
+	@Secured(['ROLE_CLIENT'])
     def save = {
 		def userInstance = User.findByUsername(springSecurityService.authentication.name)
         def orderFormInstance = new OrderForm(params)
@@ -59,11 +60,11 @@ class OrderFormController {
 		if(userInstance?.userRole == RoleType.ROLE_CLIENT) {
 			orderFormInstance = userInstance.orders
 		} else if(userInstance?.userRole == RoleType.ROLE_VENDOR) {
-			orderFormInstance = userInstance.store.orders
+			orderFormInstance = userInstance?.store?.orders
 		}
         
         if (!orderFormInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'orderForm.label', default: 'OrderForm'), params.id])}"
+            flash.message = "You don't have any orders."
         }
         else {
             [orderFormInstance: orderFormInstance]

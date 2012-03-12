@@ -102,6 +102,7 @@ class ProductController {
     }
 
     def delete = {
+		
         def productInstance = Product.get(params.id)
         if (productInstance) {
             try {
@@ -145,25 +146,34 @@ class ProductController {
 			}
 		}
 		
-		orderInstance.quantity = Integer.parseInt(params.quantity)
-		orderInstance.clientNotes = params.clientNotes
-		orderInstance.product = productInstance
-		orderInstance.save(flush:true, failOnError:true)
 		
-		cartInstance.user = userInstance
-		cartInstance.store = productInstance.store
-		cartInstance.addToOrders(orderInstance)
-		cartInstance.save(flush:true, failOnError:true)
-		userInstance.confirmPassword = userInstance.password
-		userInstance.save(flush:true, failOnError:true)
-		
-		if(orderExists) {
-			flash.message = productInstance.productName + "'s order details have been updated."
-		} else {
-			flash.message = productInstance.productName + " has been added to your cart."
+		try {
+			orderInstance.quantity = Integer.parseInt(params.quantity)
+			orderInstance.clientNotes = params.clientNotes
+			orderInstance.product = productInstance
+			
+			orderInstance.save(flush:true, failOnError:true)
+			
+			cartInstance.user = userInstance
+			cartInstance.store = productInstance.store
+			cartInstance.addToOrders(orderInstance)
+			cartInstance.save(flush:true, failOnError:true)
+			userInstance.confirmPassword = userInstance.password
+			userInstance.save(flush:true, failOnError:true)
+			
+			if(orderExists) {
+				flash.message = productInstance.productName + "'s order details have been updated."
+			} else {
+				flash.message = productInstance.productName + " has been added to your cart."
+			}
+			
+			redirect(action: "show", controller: "cart", id: userInstance.id)
+		} catch (NumberFormatException e) {
+			println "HI"
+			flash.message = "Your quantity was not a number, please try again."
+			redirect(action: "show", id: productInstance.id)			
 		}
 		
-		redirect(action: "show", controller: "cart", id: userInstance.id)
 		
     }
 	

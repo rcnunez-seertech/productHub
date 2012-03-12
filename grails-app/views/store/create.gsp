@@ -9,11 +9,7 @@
         <title><g:message code="default.create.label" args="[entityName]" /></title>
     </head>
     <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-        </div>
-        <div class="body">
+       
             <h1><g:message code="default.create.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
@@ -48,42 +44,6 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="accountDetails"><g:message code="store.accountDetails.label" default="Account Details" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: storeInstance, field: 'accountDetails', 'errors')}">
-                                    <g:textField name="accountDetails" value="${storeInstance?.accountDetails}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="acceptsDirect"><g:message code="store.acceptsDirect.label" default="Accepts Direct" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: storeInstance, field: 'acceptsDirect', 'errors')}">
-                                    <g:checkBox name="acceptsDirect" value="${storeInstance?.acceptsDirect}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="acceptsMoneyTransfer"><g:message code="store.acceptsMoneyTransfer.label" default="Accepts Money Transfer" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: storeInstance, field: 'acceptsMoneyTransfer', 'errors')}">
-                                    <g:checkBox name="acceptsMoneyTransfer" value="${storeInstance?.acceptsMoneyTransfer}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="acceptsPayPal"><g:message code="store.acceptsPayPal.label" default="Accepts Pay Pal" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: storeInstance, field: 'acceptsPayPal', 'errors')}">
-                                    <g:checkBox name="acceptsPayPal" value="${storeInstance?.acceptsPayPal}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
                                     <label for="description"><g:message code="store.description.label" default="Description" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: storeInstance, field: 'description', 'errors')}">
@@ -93,7 +53,38 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="meetUpLocations"><g:message code="store.meetUpLocations.label" default="Meet Up Locations" /></label>
+                                    <label>Payment Methods</label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: storeInstance, field: 'acceptsDirect', 'errors')}">
+								
+									<table>
+										<tr>
+											<td>
+												<g:checkBox name="acceptsDirect" value="${storeInstance?.acceptsDirect}" />
+											</td>
+											<td>Direct Payment</td>
+										</tr>
+										<tr><td><g:checkBox name="acceptsMoneyTransfer" value="${storeInstance?.acceptsMoneyTransfer}" />
+										
+										</td><td>Money Transfer</td>
+										
+										</tr>
+									</table>
+								</td>
+                            </tr>
+							
+							<tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="accountDetails">Account Details <br/>(if any)</label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: storeInstance, field: 'accountDetails', 'errors')}">
+                                    <g:textField name="accountDetails" value="${storeInstance?.accountDetails}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="meetUpLocations">Meet Up Locations </br>(if any)</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: storeInstance, field: 'meetUpLocations', 'errors')}">
                                     <g:textField name="meetUpLocations" value="${storeInstance?.meetUpLocations}" />
@@ -102,9 +93,8 @@
                         
                         </tbody>
                     </table>
-                </div>
                 <div class="buttons">
-                    <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
+                    <g:submitButton name="create" class="btn" value="${message(code: 'default.button.create.label', default: 'Create')}" />
                 </div>
             </g:form>
         </div>

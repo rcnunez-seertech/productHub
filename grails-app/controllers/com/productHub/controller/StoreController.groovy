@@ -25,6 +25,9 @@ class StoreController {
 	@Secured(['ROLE_VENDOR'])
     def create = {
 		def userInstance = User.findByUsername(springSecurityService.authentication.name)
+		if(userInstance.store) {
+			redirect(action: "show", id: userInstance.store.id)
+		}
         def storeInstance = new Store()
         storeInstance.properties = params
 		//storeInstance.user = userInstance
@@ -82,7 +85,7 @@ class StoreController {
 				redirect(action: "list")
 			}
 			else if (storeInstance.user == userInstance) {
-				return [storeInstance: storeInstance]
+				return [storeInstance: storeInstance, userInstance:userInstance]
 			} else {
 				// *** Error message.
 			}

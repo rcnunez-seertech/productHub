@@ -5,6 +5,7 @@
         <link rel="stylesheet" href="${resource(dir:'css',file:'bootstrap.css')}" />
         <link rel="stylesheet" href="${resource(dir:'css',file:'demo_table.css')}" />
         <link rel="shortcut icon" href="${resource(dir:'images',file:'favicon.ico')}" type="image/x-icon" />
+		<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
         <g:layoutHead />
 		<g:javascript src="jQuery.js" />
         <g:javascript library="application" />
@@ -60,18 +61,19 @@
 			<div class="row">
 				<div class="row"><br/></br><br/></div>
 				<div class="hero-unit">
-					<h1>HEADER </h1>
+					<img class="brand" src="${resource(dir:'images',file:'image.jpg')}" />
 				</div>
 			</div>
 			
 			<div class="row">
 				<div class="container-fluid">
 					<div class="sidebar">
+						<div class="background">
+						<div class="background2">
 						<h2>Navigation</h2>
-						<hr />
 						<sec:ifAnyGranted roles="ROLE_CLIENT">
 							<a href="/productHub/cart/index">My Cart</a>
-							<a href="/productHub/orderForm/index">My Orders</a>
+							<br/><a href="/productHub/orderForm/index">My Orders</a>
 						</sec:ifAnyGranted>
 
 						<sec:ifAnyGranted roles="ROLE_ADMINISTRATOR">
@@ -79,13 +81,15 @@
 						</sec:ifAnyGranted>
 						
 						<sec:ifAnyGranted roles="ROLE_VENDOR">
-							<a href="/productHub/store/myStore/">My Store</a>
-							<a href="/productHub/orderForm/index">My Orders</a>
+							<a href="/productHub/store/myStore/" class="link">My Store</a>
+							<br/><a href="/productHub/orderForm/index" class="link">My Orders</a>
 						</sec:ifAnyGranted>
 						
 						<sec:ifNotLoggedIn>
 							<a href="/productHub/user/create">Register</a>
 						</sec:ifNotLoggedIn>
+						</div>
+						</div>
 					</div>
 					
 					<div class="content">

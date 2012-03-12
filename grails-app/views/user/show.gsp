@@ -94,6 +94,14 @@
                 <g:form>
                     <g:hiddenField name="id" value="${userInstance?.id}" />
                     <g:actionSubmit class="btn" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" />
+                    <sec:ifAnyGranted roles="ROLE_ADMINISTRATOR">
+						<g:if test="${userInstance.enabled}">
+							<g:actionSubmit class="btn" action="deactivate" value="${message(code: 'default.button.deactivate.label', default: 'Deactivate')}" />
+						</g:if>
+						<g:else>
+							<g:actionSubmit class="btn" action="activate" value="${message(code: 'default.button.deactivate.label', default: 'Activate')}" />
+						</g:else>
+					</sec:ifAnyGranted>
                     <!--<span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>-->
                 </g:form>
             </div>

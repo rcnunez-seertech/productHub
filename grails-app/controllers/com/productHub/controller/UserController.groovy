@@ -27,11 +27,7 @@ class UserController {
     def save = {
         def userInstance = new User(params)
 		Role role = Role.findByAuthority(userInstance?.userRole?.getKey())
-		if(userInstance?.userRole == RoleType.ROLE_CLIENT) {
-				userInstance.cart = new Cart(user: userInstance).save(flush: true, failOnError:true)
-				//println "PASOK"
-				//println userInstance.cart
-		}	
+		
         if (userInstance.save(flush: true)) {
 			UserRole.create userInstance, role, true
 			println "Created instance for " + userInstance.username + " : " + role
@@ -101,6 +97,31 @@ class UserController {
             redirect(action: "list")
         }
     }
+	
+	
+	@Secured(['ROLE_ADMINISTRATOR']) 
+	def deactivate = {
+		def userInstance = User.get(params.id)
+		if(userInstance) {
+			userInstance.enabled = false
+			userInstance.confirmPassword = userInstance.password
+			userInstance.save(flush:true, failOnError:true)
+			flash.message = "${userInstance.username} has been deactivated."
+			redirect(action: "list")
+		}
+	}
+	
+	@Secured(['ROLE_ADMINISTRATOR']) 
+	def activate = {
+		def userInstance = User.get(params.id)
+		if(userInstance) {
+			userInstance.enabled = true
+			userInstance.confirmPassword = userInstance.password
+			userInstance.save(flush:true, failOnError:true)
+			flash.message = "${userInstance.username} has been activated."
+			redirect(action: "list")
+		}
+	}
 	
 	@Secured(['ROLE_ADMINISTRATOR'])
     def delete = {

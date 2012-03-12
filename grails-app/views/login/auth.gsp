@@ -7,6 +7,8 @@
 		margin: 15px 0px;
 		padding: 0px;
 		text-align: center;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
 	}
 
 	#login .inner {
@@ -20,15 +22,23 @@
 		-webkit-box-shadow: 2px 2px 2px #eee;
 		-khtml-box-shadow: 2px 2px 2px #eee;
 		box-shadow: 2px 2px 2px #eee;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
 	}
 
 	#login .inner .fheader {
 		padding: 18px 26px 14px 26px;
-		background-color: #f7f7ff;
+		background-color: #222;
 		margin: 0px 0 14px 0;
 		color: #2e3741;
 		font-size: 18px;
-		font-weight: bold;
+		font-family: "Oswald", Helvetica, Arial, sans-serif;
+		text-transform: uppercase;
+		color: #AAA;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
 	}
 
 	#login .inner .cssform p {
@@ -38,6 +48,9 @@
 		padding-left: 105px;
 		margin-bottom: 20px;
 		height: 1%;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
 	}
 
 	#login .inner .cssform input[type='text'] {
