@@ -8,7 +8,7 @@
         <title><g:message code="default.show.label" args="[entityName]" /></title>
     </head>
     <body>
-            <h1><g:message code="default.show.label" args="[entityName]" /></h1>
+            <h1><g:link controller="store" action="show" id="${productInstance.store.id}">${productInstance.store.storeName.encodeAsHTML()}</g:link> - ${fieldValue(bean: productInstance, field: "productName")}</h1>
             <g:if test="${flash.message}">
             <div class="alert-message block-message warning">${flash.message}</div>
             </g:if>
@@ -25,52 +25,56 @@
                     <tbody>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="product.productName.label" default="Product Name" /></td>
+			    <td rowspan ="7" valign="top" class="value">
+				<g:if test="${productInstance?.image}">
+					<img src="${createLink(controller:'product', action:'image', id: params.id)}" width="250"/>
+				</g:if>
+				<g:else>
+					<img src="${resource(dir:'images',file:'noimage.jpg')}" width="250"/>
+				</g:else>
+				</td>
+                            <th valign="top" class="name"><g:message code="product.productName.label" default="Product Name" /></td>
                             
                             <td valign="top" class="value">${fieldValue(bean: productInstance, field: "productName")}</td>
                             
                         </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="product.productCode.label" default="Product Code" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: productInstance, field: "productCode")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="product.quantity.label" default="Quantity" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: productInstance, field: "quantity")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="product.price.label" default="Price" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: productInstance, field: "price")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="product.description.label" default="Description" /></td>
+			
+			<tr class="prop">
+                            <th valign="top" class="name"><g:message code="product.description.label" default="Description" /></th>
                             
                             <td valign="top" class="value">${fieldValue(bean: productInstance, field: "description")}</td>
                             
                         </tr>
-						
-						<tr class="prop">
-                            <td valign="top" class="name"><g:message code="store.description.label" default="Store" /></td>
-                            
-                            <td valign="top" class="value">
-							<g:link controller="store" action="show" id="${productInstance.store.id}">${productInstance.store.storeName.encodeAsHTML()}</g:link></td>
-                            
-                        </tr>
-						
+                    
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="product.image.label" default="Image" /></td>
-                            <td valign="top" class="value"><img src="${createLink(controller:'product', action:'image', id: params.id)}" width="400"/></td>
+                            <th valign="top" class="name"><g:message code="product.productCode.label" default="Product Code" /></th>
+                            
+                            <td valign="top" class="value">${fieldValue(bean: productInstance, field: "productCode")}</td>
                         </tr>
+                    
+                        <tr class="prop">
+                            <th valign="top" class="name"><g:message code="product.quantity.label" default="Quantity" /></th>
+                            <td valign="top" class="value">
+							<g:if test="${productInstance.quantity > 0}">
+								${fieldValue(bean: productInstance, field: "quantity")}
+							</g:if>
+							<g:else>
+								Out of Stock
+							</g:else>
+							</td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <th valign="top" class="name"><g:message code="product.price.label" default="Price" /></th>
+                            
+                            <td valign="top" class="value">${fieldValue(bean: productInstance, field: "price")}</td>
+                            
+                        </tr>
+                    	
+                        
+                            
+                      
                     
                     </tbody>
                 </table>
@@ -83,7 +87,7 @@
 						</tr>
 						<tr class="prop">
 							<td valign="top" class="name">
-								<label for="customerNotes"><g:message code="order.customerNotes.label" default="Order Notes" /></label>
+								Order Notes
 								<br/><sub>Size, Colours, etc.</sub>
 							</td>
 							<td valign="top" class="value ${hasErrors(bean: orderInstance, field: 'customerNotes', 'errors')}">
@@ -94,10 +98,37 @@
 					</table>
 					
 						<g:actionSubmit class="btn" action="addToCart" value="${message(code: 'default.button.addToCart.label', default: 'Add To Cart')}" />
-					
+						<g:if test="${productInstance?.quantity <= 0 && !userInstance?.wishlist?.products?.contains(productInstance)}">
+							<g:actionSubmit class="btn" action="addToWishlist" value="${message(code: 'default.button.addToWishlist.label', default: 'Add To Wishlist')}" />
+						</g:if>
+						<g:if test="${userInstance?.wishlist?.products?.contains(productInstance)}">
+							<g:actionSubmit class="btn" action="removeFromWishlist" value="${message(code: 'default.button.removeFromWishlist.label', default: 'Remove From Wishlist')}" />
+						</g:if>
 				</g:form>
-				</sec:ifAnyGranted>
 				
+				<h2>Ratings</h2>
+				<g:form>
+					<g:hiddenField name="id" value="${productInstance?.id}" />
+						<g:textField name="rating" maxlength="1" size="1" />
+                    <g:textField name="remarks"/>
+                    <g:actionSubmit class="btn" action="addComment" value="${message(code: 'default.button.addComment.label', default: 'Add Comment')}" />
+                </g:form>
+				
+					<g:each in="${productInstance?.comments}" var="p">
+					<table class="orders">
+						<tr class="prop">
+						<td><g:link controller="user" action="show" id="${p.author.id}">${p.author.username}</g:link></td>
+						<td>${p.rating}</td>
+						</tr>
+						
+						<tr class="prop">
+						<td colspan="2">${p.remarks}</td>
+						</tr>
+					</table>
+					</g:each>
+				</sec:ifAnyGranted>
+			
+			
             <div class="buttons">
                 <g:form>
                     <g:hiddenField name="id" value="${productInstance?.id}" />

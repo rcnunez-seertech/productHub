@@ -3,8 +3,11 @@ package com.productHub.domain
 public enum OrderStatus {
 
 	SENT_TO_SHOP('Sent to Shop'),
-	AWAITING_PAYMENT('Awaiting Payment'),
 	APPROVED('Approved'),
+	AWAITING_PAYMENT('Awaiting Payment'),
+	PAYMENT_SENT('Payment Sent'),
+	PAYMENT_ACCEPTED('Payment Accepted'),
+	PAYMENT_REJECTED('Payment Rejected'),
 	DELIVERED('Delivered'),
 	RECEIVED('Received')
 

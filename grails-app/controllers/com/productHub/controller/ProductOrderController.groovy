@@ -1,6 +1,7 @@
 package com.productHub.controller
 import com.productHub.domain.*
 
+@Secured(['IS_AUTHENTICATED_FULLY'])
 class ProductOrderController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]

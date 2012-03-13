@@ -13,8 +13,8 @@ class Store {
 	
 	String accountDetails
 	
+	boolean isValidated = false
 	boolean acceptsDirect = false
-	boolean acceptsPayPal = false
 	boolean acceptsMoneyTransfer = false
 
     static constraints = {

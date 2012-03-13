@@ -21,6 +21,23 @@ class StoreController {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [storeInstanceList: Store.list(params), storeInstanceTotal: Store.count(), userInstance: userInstance]
     }
+	
+	@Secured(['ROLE_CLIENT'])
+	def addComment = {
+		def userInstance = User.findByUsername(springSecurityService.authentication.name)
+		def storeInstance = Store.get(params.id)
+		def commentInstance = new Comment()
+		commentInstance.properties = params
+		commentInstance.author = userInstance
+		commentInstance.store = storeInstance
+		storeInstance.addToComments(commentInstance)
+		if (storeInstance.save(flush:true, failOnError:true)) {
+			flash.message = "Rating Added."
+			redirect(action: "show", id: storeInstance.id)
+		}
+		
+		
+	}
 
 	@Secured(['ROLE_VENDOR'])
     def create = {

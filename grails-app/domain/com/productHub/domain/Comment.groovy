@@ -6,7 +6,7 @@ class Comment {
 	Product product
 	Store store
 	String remarks
-	float rating
+	int rating
 
     static constraints = {
 		product(nullable:true)

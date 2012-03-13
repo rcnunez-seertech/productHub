@@ -48,7 +48,7 @@
 						
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="orderForm.paymentProof.label" default="Payment Proof" /></td>
-								
+								<td><img src="${createLink(controller:'orderForm', action:'image', id: params.id)}" width="250"/></td>
 							</tr>
 						
 							<tr class="prop">

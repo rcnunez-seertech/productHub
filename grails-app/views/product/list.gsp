@@ -26,30 +26,21 @@
                 <table class="zebra-striped">
                     <thead>
                         <tr>
+				<th>Product Name</th>
+                            
+				<th>Quantity</th>
                         
-                            <g:sortableColumn property="id" title="${message(code: 'product.id.label', default: 'Id')}" />
-                        
-                            <g:sortableColumn property="productName" title="${message(code: 'product.productName.label', default: 'Product Name')}" />
-                        
-                            <g:sortableColumn property="productCode" title="${message(code: 'product.productCode.label', default: 'Product Code')}" />
-                        
-                            <g:sortableColumn property="quantity" title="${message(code: 'product.quantity.label', default: 'Quantity')}" />
-                        
-                            <g:sortableColumn property="price" title="${message(code: 'product.price.label', default: 'Price')}" />
-                        
-                            <g:sortableColumn property="description" title="${message(code: 'product.description.label', default: 'Description')}" />
-                        
+				<th>Price</th>
+			    
+				<th>Description</th>
                         </tr>
                     </thead>
                     <tbody>
                     <g:each in="${productInstanceList}" status="i" var="productInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
-                            <td><g:link action="show" id="${productInstance.id}">${fieldValue(bean: productInstance, field: "id")}</g:link></td>
                         
-                            <td>${fieldValue(bean: productInstance, field: "productName")}</td>
-                        
-                            <td>${fieldValue(bean: productInstance, field: "productCode")}</td>
+                            <td><g:link action="show" id="${productInstance.id}">${fieldValue(bean: productInstance, field: "productName")}</g:link></td>
                         
                             <td>${fieldValue(bean: productInstance, field: "quantity")}</td>
                         

@@ -61,7 +61,7 @@
 			<div class="row">
 				<div class="row"><br/></br><br/></div>
 				<div class="hero-unit">
-					<img class="brand" src="${resource(dir:'images',file:'image.jpg')}" />
+					<img src="${resource(dir:'images',file:'image.jpg')}" />
 				</div>
 			</div>
 			
@@ -74,6 +74,7 @@
 						<sec:ifAnyGranted roles="ROLE_CLIENT">
 							<a href="/productHub/cart/index">My Cart</a>
 							<br/><a href="/productHub/orderForm/myOrders">My Orders</a>
+							<br/><a href="/productHub/wishlist/index">My Wishlist</a>
 						</sec:ifAnyGranted>
 
 						<sec:ifAnyGranted roles="ROLE_ADMINISTRATOR">

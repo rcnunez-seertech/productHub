@@ -18,6 +18,13 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
+			<div class="buttons">
+                <g:form>
+                    <g:hiddenField name="id" value="${storeInstance?.id}" />
+                    <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
+                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+                </g:form>
+            </div>
             <div class="dialog">
                 <table>
                     <tbody>
@@ -71,12 +78,6 @@
                             
                         </tr>
                     
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="store.acceptsPayPal.label" default="Accepts Pay Pal" /></td>
-                            
-                            <td valign="top" class="value"><g:formatBoolean boolean="${storeInstance?.acceptsPayPal}" /></td>
-                            
-                        </tr>
                     
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="store.description.label" default="Description" /></td>
@@ -107,14 +108,31 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
-            <div class="buttons">
-                <g:form>
+				<h1>Ratings</h1>
+				<g:form>
                     <g:hiddenField name="id" value="${storeInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+					<g:textField name="rating" maxlength="1" />
+                    <g:textField name="remarks"/>
+                    <g:actionSubmit class="btn" action="addComment" value="${message(code: 'default.button.addComment.label', default: 'Add Comment')}" />
                 </g:form>
+				
+					<g:each in="${storeInstance.comments}" var="p">
+					<table class="orders">
+						<tr class="prop">
+						<td><g:link controller="user" action="show" id="${p.id}">${p.author.username}</g:link></td>
+						<td>${p.rating}</td>
+						</tr>
+						
+						<tr class="prop">
+						<td colspan="2">${p.remarks}</td>
+						</tr>
+					</table>
+					</g:each>
+				
+				
+				
             </div>
+            
         </div>
     </body>
 </html>

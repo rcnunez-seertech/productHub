@@ -1,5 +1,7 @@
 
 <%@ page import="com.productHub.domain.OrderForm" %>
+<%@ page import="com.productHub.domain.OrderStatus" %>
+<%@ page import="com.productHub.domain.PaymentType" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -22,6 +24,23 @@
 									
 									<th valign="top" class="value"><g:link controller="user" action="show" id="${s?.customer?.id}">${s?.customer?.username.encodeAsHTML()}</g:link></th>
 									<td></td>
+								<g:form>
+									<g:hiddenField name="id" value="${s?.id}" />
+									<td>
+										
+										<sec:ifAnyGranted roles="ROLE_VENDOR">
+											<g:actionSubmit action="changeStatus" value="${message(code: 'default.button.upload.label', default: 'Change Status')}" />
+										</sec:ifAnyGranted>
+										<sec:ifAnyGranted roles="ROLE_CLIENT">
+											<g:if test="${s.payment == PaymentType.MONEY_TRANSFER && !s.paymentProof}">
+												<g:actionSubmit action="uploadForm" value="${message(code: 'default.button.upload.label', default: 'Upload Proof of Payment')}" />
+											</g:if>
+											<g:if test="${s.status == OrderStatus.DELIVERED || (s.payment == PaymentType.DIRECT_PAYMENT && s.status == OrderStatus.APPROVED)}">
+												<g:actionSubmit action="changeStatus" value="${message(code: 'default.button.upload.label', default: 'Mark as Received')}" />
+											</g:if>
+										</sec:ifAnyGranted>
+									</td>
+								</g:form>
 								</tr>
 								
 							
@@ -30,6 +49,7 @@
 									<th>Quantity</th>
 									<th colspan="2">Notes</th>
 								</tr>
+								<g:set var="total" value="${0l}" />
 								<g:each in="${s?.cart?.orders}" var="p" status="q">
 									<tr class="details">
 									<td>
@@ -38,8 +58,15 @@
 									<td>${p?.quantity.encodeAsHTML()}</td>
 									<td colspan="2">${p?.clientNotes?.encodeAsHTML()}</td>
 									</tr>
+									<g:set var="total" value="${total+(p.product.price*p.quantity)}"/>
 								</g:each>
 								
+								<tr class="prop">
+									<th>Total Price:</th>
+									<td valign="top" class="value">${total?.encodeAsHTML()}</td>
+									
+								</tr>
+										
 								<tr class="prop">
 									<th>Status:</th>
 									<td valign="top" class="value">${s?.status?.encodeAsHTML()}</td>
@@ -48,16 +75,24 @@
 									<td valign="top" class="value">${s?.payment?.encodeAsHTML()} - ${s.paymentNotes}</td>
 									
 								</tr>
+								
+								<g:if test="${s?.payment == PaymentType.MONEY_TRANSFER}">
+									<tr>
+										<th>Proof of Payment:</th>
+										<td colspan="3" valign="center">
+											<g:if test="${s?.paymentProof}">
+												<img src="${createLink(controller:'orderForm', action:'image', id: s.id)}" height="200"/>
+											</g:if>
+											<g:else>
+												Still waiting for the photo of the deposit slip.
+											</g:else>
+										</td>
+									</tr>
+								</g:if>
 						</tbody>
 					</table>
 				</g:each>
-            <div class="buttons">
-                <g:form>
-                    <g:hiddenField name="id" value="${orderFormInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
-                </g:form>
-            </div>
+       
         </div>
     </body>
 </html>

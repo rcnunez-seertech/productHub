@@ -19,8 +19,33 @@ class ProductController {
 	
 	def image = {
 		def productImage = Product.get(params.id)
-		byte[] prodImage = productImage.image
+		byte[] prodImage 
+		if(productImage?.image) {
+			prodImage = productImage.image
+		} else {
+			String pathToImage = g.createLinkTo(dir:"images", file:"noimage.jpg").toString()
+			//prodImage = pathToImage
+			//println pathToImage
+		}
 		response.outputStream << prodImage
+	}
+	
+	
+	@Secured(['ROLE_CLIENT'])
+	def addComment = {
+		def userInstance = User.findByUsername(springSecurityService.authentication.name)
+		def productInstance = Product.get(params.id)
+		def commentInstance = new Comment()
+		commentInstance.properties = params
+		commentInstance.author = userInstance
+		commentInstance.product = productInstance
+		productInstance.addToComments(commentInstance)
+		if (productInstance.save(flush:true, failOnError:true)) {
+			flash.message = "Rating Added."
+			redirect(action: "show", id: productInstance.id)
+		}
+		
+		
 	}
 
 	@Secured(['ROLE_VENDOR'])
@@ -100,6 +125,32 @@ class ProductController {
             redirect(action: "list")
         }
     }
+	
+	@Secured(['ROLE_CLIENT'])
+	def addToWishlist = {
+		def userInstance = User.findByUsername(springSecurityService.authentication.name)
+		def productInstance = Product.get(params.id)
+		
+		userInstance.wishlist.addToProducts(productInstance)
+		productInstance.save(flush:true, failOnError:true)
+		
+		flash.message = "Product has been added to your wishlist."
+		redirect(action: "show", controller:"wishlist", id: userInstance.wishlist.id)
+		
+	}
+	
+	@Secured(['ROLE_CLIENT'])
+	def removeFromWishlist = {
+		def userInstance = User.findByUsername(springSecurityService.authentication.name)
+		def productInstance = Product.get(params.id)
+		
+		userInstance.wishlist.removeFromProducts(productInstance)
+		productInstance.save(flush:true, failOnError:true)
+		
+		flash.message = "Product has been removed from your wishlist."
+		redirect(action: "show", controller:"wishlist", id: userInstance.wishlist.id)
+		
+	}
 
     def delete = {
 		
@@ -134,12 +185,12 @@ class ProductController {
 			cartInstance.user = userInstance
 			cartInstance.store = productInstance.store
 			userInstance.addToCarts(cartInstance.save(flush:true, failOnError:true))
-		} else if(userInstance?.carts && !(userInstance?.carts).find{it?.store == productInstance?.store}) {
+		} else if(userInstance?.carts && !(userInstance?.carts).find{it?.store == productInstance?.store && !it?.isCheckedOut}) {
 			cartInstance.user = userInstance
 			cartInstance.store = productInstance.store
 			userInstance.addToCarts(cartInstance.save(flush:true, failOnError:true))
 		} else {
-			cartInstance = (userInstance?.carts).find{it?.store == productInstance?.store}
+			cartInstance = (userInstance?.carts).find{it?.store == productInstance?.store && !it.isCheckedOut}
 			if(cartInstance.orders.find{it.product == productInstance}) {
 				orderInstance = cartInstance.orders.find{it.product == productInstance}
 				orderExists = true
@@ -148,26 +199,32 @@ class ProductController {
 		
 		
 		try {
-			orderInstance.quantity = Integer.parseInt(params.quantity)
-			orderInstance.clientNotes = params.clientNotes
-			orderInstance.product = productInstance
-			
-			orderInstance.save(flush:true, failOnError:true)
-			
-			cartInstance.user = userInstance
-			cartInstance.store = productInstance.store
-			cartInstance.addToOrders(orderInstance)
-			cartInstance.save(flush:true, failOnError:true)
-			userInstance.confirmPassword = userInstance.password
-			userInstance.save(flush:true, failOnError:true)
-			
-			if(orderExists) {
-				flash.message = productInstance.productName + "'s order details have been updated."
+			if(Integer.parseInt(params.quantity) <= productInstance.quantity) {
+				orderInstance.quantity = Integer.parseInt(params.quantity)
+				orderInstance.clientNotes = params.clientNotes
+				orderInstance.product = productInstance
+				
+				orderInstance.save(flush:true, failOnError:true)
+				
+				cartInstance.user = userInstance
+				cartInstance.store = productInstance.store
+				cartInstance.addToOrders(orderInstance)
+				cartInstance.save(flush:true, failOnError:true)
+				userInstance.confirmPassword = userInstance.password
+				userInstance.save(flush:true, failOnError:true)
+				
+				if(orderExists) {
+					flash.message = productInstance.productName + "'s order details have been updated."
+				} else {
+					flash.message = productInstance.productName + " has been added to your cart."
+				}
+				redirect(action: "show", controller: "cart", id: userInstance.id)
 			} else {
-				flash.message = productInstance.productName + " has been added to your cart."
+				flash.message = "Your quantity cannot be greater than the current amount in stock."
+				redirect(action: "show", id: productInstance.id)
 			}
 			
-			redirect(action: "show", controller: "cart", id: userInstance.id)
+			
 		} catch (NumberFormatException e) {
 			println "HI"
 			flash.message = "Your quantity was not a number, please try again."
