@@ -28,6 +28,10 @@ class UserController {
         def userInstance = new User(params)
 		Role role = Role.findByAuthority(userInstance?.userRole?.getKey())
 		
+		if(userInstance.userRole == RoleType.ROLE_CLIENT) {
+			userInstance.wishlist = new Wishlist(user: userInstance)
+		}
+		
         if (userInstance.save(flush: true)) {
 			UserRole.create userInstance, role, true
 			println "Created instance for " + userInstance.username + " : " + role

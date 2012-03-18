@@ -19,7 +19,7 @@ class Store {
 
     static constraints = {
 		storeName (unique:true, blank:false, size: 5..30)
-		storeCode (unique:true, blank:false, size: 5..15)
+		storeCode (unique:true, blank:false, size: 5..15, matches: /[\S]+/)
 		user (validator: { val, obj -> 
 			switch(obj.user.userRole) {
 				case RoleType.ROLE_ADMINISTRATOR:

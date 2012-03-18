@@ -15,7 +15,7 @@ class Product {
     static constraints = {
 		productName(unique:true, blank:false)
 		productCode(unique:true, blank:false)
-		quantity(blank:false)
-		price(blank:false)
+		quantity(blank:false, min:1)
+		price(blank:false, min:1.0F, scale:2)
     }
 }

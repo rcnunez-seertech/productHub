@@ -109,7 +109,7 @@ class OrderFormController {
 			userInstance.confirmPassword = userInstance.password
 			userInstance.save(flush:true, failOnError:true)
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'orderForm.label', default: 'OrderForm'), orderFormInstance.id])}"
-            redirect(action: "show", id: orderFormInstance.id)
+            redirect(action: "myOrders")
         }
         else {
             render(view: "checkout", model: [orderFormInstance: orderFormInstance])
@@ -117,6 +117,24 @@ class OrderFormController {
     }
 	
 	def myOrders = {
+		def userInstance = User.findByUsername(springSecurityService.authentication.name)
+		def orderForms
+		if(userInstance?.userRole == RoleType.ROLE_CLIENT) {
+			orderForms = OrderForm.findAllByCustomer(userInstance)
+		} else if(userInstance?.userRole == RoleType.ROLE_VENDOR) {
+			if(userInstance?.store?.orders) {
+				orderForms = userInstance?.store?.orders
+			} else {
+				flash.message = "You can't have orders if you don't have a store. Please make your store first."
+				redirect(action: "create", controller: "store")
+			}
+		}
+		
+		[orderForms: orderForms]
+	}
+	
+	
+	def processedOrders = {
 		def userInstance = User.findByUsername(springSecurityService.authentication.name)
 		def orderForms
 		if(userInstance?.userRole == RoleType.ROLE_CLIENT) {

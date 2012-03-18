@@ -9,8 +9,8 @@
     </head>
     <body>
             <h1><g:message code="default.show.label" args="[entityName]" /></h1>
-            <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
+             <g:if test="${flash.message}">
+            <div class="alert-message block-message warning">${flash.message}</div>
             </g:if>
             <div class="dialog">
                 

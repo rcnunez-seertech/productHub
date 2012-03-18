@@ -11,7 +11,7 @@
         
             <h1><g:message code="default.show.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
+            <div class="alert-message block-message warning">${flash.message}</div>
             </g:if>
 			<sec:ifAnyGranted roles="ROLE_ADMINISTRATOR">
                 <table>
@@ -53,9 +53,10 @@
 												</tr>
 											
 										</table>
+										<hr/>
 									</g:if>
 											
-										<hr/>
+										
 									
                                 </g:each>
             <sec:ifAnyGranted roles="ROLE_ADMINISTRATOR">                    

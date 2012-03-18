@@ -105,28 +105,44 @@
 							<g:actionSubmit class="btn" action="removeFromWishlist" value="${message(code: 'default.button.removeFromWishlist.label', default: 'Remove From Wishlist')}" />
 						</g:if>
 				</g:form>
+				</sec:ifAnyGranted>
 				
-				<h2>Ratings</h2>
+				<g:set var="total" value="${0l}" />
+				<g:set var="count" value="${0l}" />
+				<g:if test="${productInstance?.comments}">
+				<g:each in="${productInstance?.comments}" var="p">
+					<g:set var="total" value="${total+(p.rating)}"/>
+					<g:set var="count" value="${count+1}"/>
+				</g:each>
+				
+				<g:set var="total" value="${total / count}" />
+				</g:if>
+				<h2>Rating : <g:if test="${productInstance?.comments}">${total}</g:if> <g:else>5</g:else></h2>
+				
+				
+				<sec:ifAnyGranted roles="ROLE_CLIENT">
 				<g:form>
 					<g:hiddenField name="id" value="${productInstance?.id}" />
 						<g:textField name="rating" maxlength="1" size="1" />
                     <g:textField name="remarks"/>
                     <g:actionSubmit class="btn" action="addComment" value="${message(code: 'default.button.addComment.label', default: 'Add Comment')}" />
                 </g:form>
+				</sec:ifAnyGranted>
 				
 					<g:each in="${productInstance?.comments}" var="p">
+					<g:set var="total" value="${total+(p.rating)}"/>
+					<g:set var="count" value="${count+1}"/>
 					<table class="orders">
 						<tr class="prop">
-						<td><g:link controller="user" action="show" id="${p.author.id}">${p.author.username}</g:link></td>
-						<td>${p.rating}</td>
+						<td colspan="2"><g:link controller="user" action="show" id="${p.author.id}">${p.author.username}</g:link></td> 
 						</tr>
-						
 						<tr class="prop">
-						<td colspan="2">${p.remarks}</td>
+						<td colspan="2"><b>Rating: ${p.rating}</b> <br/>${p.remarks}</td>
 						</tr>
 					</table>
 					</g:each>
-				</sec:ifAnyGranted>
+					
+				
 			
 			
             <div class="buttons">

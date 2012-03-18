@@ -19,6 +19,11 @@
                 <g:renderErrors bean="${productInstance}" as="list" />
             </div>
             </g:hasErrors>
+			<g:hasErrors bean="${productOrderInstance}">
+            <div class="alert-message block-message error">
+                <g:renderErrors bean="${productOrderInstance}" as="list" />
+            </div>
+            </g:hasErrors>
             <g:form action="save"  enctype="multipart/form-data">
                 <div class="dialog">
                     <table>
@@ -82,7 +87,7 @@
                     </table>
                 </div>
                 <div class="buttons">
-                    <g:submitButton name="btn" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+                    <g:submitButton name="btn" class="btn" value="${message(code: 'default.button.create.label', default: 'Create')}" />
                 </div>
             </g:form>
     </body>

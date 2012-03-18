@@ -61,7 +61,7 @@
 			<div class="row">
 				<div class="row"><br/></br><br/></div>
 				<div class="hero-unit">
-					<img src="${resource(dir:'images',file:'image.jpg')}" />
+					<img src="${resource(dir:'images',file:'banner.jpg')}" />
 				</div>
 			</div>
 			
@@ -73,17 +73,19 @@
 						<h2>Navigation</h2>
 						<sec:ifAnyGranted roles="ROLE_CLIENT">
 							<a href="/productHub/cart/index">My Cart</a>
-							<br/><a href="/productHub/orderForm/myOrders">My Orders</a>
+							<br/><a href="/productHub/orderForm/myOrders" class="link">My Pending Orders</a>
+							<br/><a href="/productHub/orderForm/processedOrders" class="link">Processed Orders</a>
 							<br/><a href="/productHub/wishlist/index">My Wishlist</a>
 						</sec:ifAnyGranted>
 
 						<sec:ifAnyGranted roles="ROLE_ADMINISTRATOR">
-							<a href="/productHub/cart/list">View Carts</a>
+							
 						</sec:ifAnyGranted>
 						
 						<sec:ifAnyGranted roles="ROLE_VENDOR">
 							<a href="/productHub/store/myStore/" class="link">My Store</a>
-							<br/><a href="/productHub/orderForm/myOrders" class="link">My Orders</a>
+							<br/><a href="/productHub/orderForm/myOrders" class="link">My Pending Orders</a>
+							<br/><a href="/productHub/orderForm/processedOrders" class="link">Processed Orders</a>
 						</sec:ifAnyGranted>
 						
 						<sec:ifNotLoggedIn>

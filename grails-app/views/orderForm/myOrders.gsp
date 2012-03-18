@@ -12,11 +12,12 @@
     <body>
             <h1>MY ORDERS</h1>
             <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
+            <div class="alert-message block-message warning">${flash.message}</div>
             </g:if>
             <div class="dialog">
                 
 				<g:each in="${orderForms}" var="s" status="i">
+					<g:if test="${s.status != OrderStatus.RECEIVED}">
 					<table class="orders">
 						<tbody>
 							
@@ -32,7 +33,7 @@
 											<g:actionSubmit action="changeStatus" value="${message(code: 'default.button.upload.label', default: 'Change Status')}" />
 										</sec:ifAnyGranted>
 										<sec:ifAnyGranted roles="ROLE_CLIENT">
-											<g:if test="${s.payment == PaymentType.MONEY_TRANSFER && !s.paymentProof}">
+											<g:if test="${s.payment == PaymentType.MONEY_TRANSFER && (!s.paymentProof || s.status == OrderStatus.PAYMENT_REJECTED)}">
 												<g:actionSubmit action="uploadForm" value="${message(code: 'default.button.upload.label', default: 'Upload Proof of Payment')}" />
 											</g:if>
 											<g:if test="${s.status == OrderStatus.DELIVERED || (s.payment == PaymentType.DIRECT_PAYMENT && s.status == OrderStatus.APPROVED)}">
@@ -43,6 +44,14 @@
 								</g:form>
 								</tr>
 								
+								<tr class="prop">
+									<td><b>Contact Number:</b> ${s?.customer?.contactNumber}</td>
+									 <td>
+									 <g:if test="${s.payment == PaymentType.MONEY_TRANSFER}">
+										<b>Shipping Address:</b> ${s?.customer?.shippingAddress}
+									</g:if>
+									 </td>
+								</tr>
 							
 								<tr class="details">
 									<th>Product</th>
@@ -63,7 +72,7 @@
 								
 								<tr class="prop">
 									<th>Total Price:</th>
-									<td valign="top" class="value">${total?.encodeAsHTML()}</td>
+									<td valign="top" class="value"><g:formatNumber number="${total}" type="currency" currencyCode="PHP" /></td>
 									
 								</tr>
 										
@@ -91,6 +100,7 @@
 								</g:if>
 						</tbody>
 					</table>
+					</g:if>
 				</g:each>
        
         </div>

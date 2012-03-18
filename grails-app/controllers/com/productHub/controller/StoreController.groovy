@@ -22,6 +22,17 @@ class StoreController {
         [storeInstanceList: Store.list(params), storeInstanceTotal: Store.count(), userInstance: userInstance]
     }
 	
+	@Secured(['ROLE_ADMINISTRATOR'])
+	def validate = {
+		def storeInstance = Store.get(params.id)
+		if(storeInstance) {
+			storeInstance.isValidated = true
+			storeInstance.save(flush:true, failOnError:true)
+			flash.message = "${storeInstance.storeName} has been validated."
+			redirect(action: "list")
+		}
+	}
+	
 	@Secured(['ROLE_CLIENT'])
 	def addComment = {
 		def userInstance = User.findByUsername(springSecurityService.authentication.name)

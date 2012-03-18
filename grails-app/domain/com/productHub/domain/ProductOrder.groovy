@@ -13,5 +13,6 @@ class ProductOrder {
 		product(nullable:false)
 		clientNotes(nullable:true)
 		vendorNotes(nullable:true)
+		quantity(blank:false, min:1)
     }
 }

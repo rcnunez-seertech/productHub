@@ -9,10 +9,11 @@
     <body>
             <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
+            <div class="alert-message block-message warning">${flash.message}</div>
             </g:if>
             <g:hasErrors bean="${storeInstance}">
-            <div class="errors">
+            <div class="alert-message block-message error">
+				<h2>Errors found!</h2>
                 <g:renderErrors bean="${storeInstance}" as="list" />
             </div>
             </g:hasErrors>
@@ -84,7 +85,7 @@
                                     <label for="accountDetails">Account Details <br/>(if any)</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: storeInstance, field: 'accountDetails', 'errors')}">
-                                    <g:textField name="accountDetails" value="${storeInstance?.accountDetails}" />
+                                    <g:textArea name="accountDetails" value="${storeInstance?.accountDetails}" />
                                 </td>
                             </tr>
                         
@@ -93,7 +94,7 @@
                                     <label for="meetUpLocations">Meet Up Locations </br>(if any)</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: storeInstance, field: 'meetUpLocations', 'errors')}">
-                                    <g:textField name="meetUpLocations" value="${storeInstance?.meetUpLocations}" />
+                                    <g:textArea name="meetUpLocations" value="${storeInstance?.meetUpLocations}" />
                                 </td>
                             </tr>
                         

@@ -6,15 +6,16 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'cart.label', default: 'Cart')}" />
-        <title><g:message code="default.show.label" args="[entityName]" /></title>
+        <title>Checkout</title>
     </head>
     <body>
-			<h1><g:message code="default.create.label" args="[entityName]" /></h1>
+			<h1>Checkout</h1>
             <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
+            <div class="alert-message block-message warning">${flash.message}</div>
             </g:if>
             <g:hasErrors bean="${orderFormInstance}">
-            <div class="errors">
+            <div class="alert-message block-message error">
+				<h2>Errors found!</h2>
                 <g:renderErrors bean="${orderFormInstance}" as="list" />
             </div>
             </g:hasErrors>
@@ -22,6 +23,22 @@
                 <div class="dialog">
                     <table>
                         <tbody>
+							<g:if test="${orderFormInstance?.cart?.store?.acceptsMoneyTransfer}">
+							<tr class="prop">
+								<td valign="top" class="name">Account Details of ${orderFormInstance?.cart?.store?.storeName}:</td>
+								<td valign="top" class="value">${orderFormInstance?.cart?.store?.accountDetails}</td>
+							</tr>
+							</g:if>
+							<g:if test="${orderFormInstance?.cart?.store?.acceptsDirect}">
+							<tr class="prop">
+								<td valign="top" class="name">Select a Meetup Place From the Following:</td>
+								<td valign="top" class="value">${orderFormInstance?.cart?.store?.meetUpLocations}</td>
+							</tr>
+							<tr class="prop">
+								<td valign="top" class="name">Note The Shop's Contact Details:</td>
+								<td valign="top" class="value">${orderFormInstance?.cart?.store?.user?.contactNumber}</td>
+							</tr>
+							</g:if>
                             <tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="payment"><g:message code="orderForm.payment.label" default="Payment" /></label>
@@ -59,7 +76,7 @@
                         </tbody>
                     </table>
                 </div>
-				<g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
+				<g:submitButton name="create" class="btn" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
 			</g:form>
 			
 			

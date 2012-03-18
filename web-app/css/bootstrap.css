@@ -210,49 +210,6 @@ body {
   zoom: 1;
 }
 
-.background{
-	background-color: #333;
-	padding: 15px;
-	min-height: 500px;
-	-webkit-border-radius: 6px;
-	  -moz-border-radius: 6px;
-	  border-radius: 6px;
-}
-
-.background .background2{
-	min-height: 480px;
-	padding: 10px;
-	-webkit-border-radius: 6px;
-	  -moz-border-radius: 6px;
-	  border-radius: 6px;
-	background-color: #000000;
-}
-
-.background2 a:link, a:visited {
-	font-family: "Oswald", Helvetica, Arial, sans-serif;
-	text-transform: uppercase;
-	color: #AAA;
-	line-height: 30px;
-	text-decoration: none;
-	  
-}
-
-
-
-.background2 h2 {
-	font-family: "Oswald", Helvetica, Arial, sans-serif;
-	font-size: 20px;
-	color: #FFF;
-	text-align: center;
-}
-
-.background2 a:hover {
-	font-family: "Oswald", Helvetica, Arial, sans-serif;
-	text-transform: uppercase;
-	color: #FFF;
-	line-height: 30px;
-	text-decoration: none;
-}
 
 .orders {
 	border: 1px solid #eee;
@@ -260,7 +217,7 @@ body {
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
-	background-color: #DDDDDD;
+	background-color: #99ccff;
 }
 
 .orders .details{
@@ -280,10 +237,55 @@ body {
   top: 0;
   left: 0px;
   width: 220px;
+  height:100%;
 }
+
+.background{
+	background-color: #99ccff;
+	padding: 15px;
+	height: 96.5%;
+	-webkit-border-radius: 6px;
+	  -moz-border-radius: 6px;
+	  border-radius: 6px;
+}
+
+.background .background2{
+	padding: 10px;
+	height: 98%;
+	-webkit-border-radius: 6px;
+	  -moz-border-radius: 6px;
+	  border-radius: 6px;
+	background-color: #fff;
+}
+
+.background2 a:link, a:visited {
+	font-family: "Oswald", Helvetica, Arial, sans-serif;
+	text-transform: uppercase;
+	color: #006633;
+	line-height: 30px;
+	text-decoration: none;
+	  
+}
+
+.background2 h2 {
+	font-family: "Oswald", Helvetica, Arial, sans-serif;
+	font-size: 20px;
+	color: #006633;
+	text-align: center;
+}
+
+.background2 a:hover {
+	font-family: "Oswald", Helvetica, Arial, sans-serif;
+	text-transform: uppercase;
+	color: #FFF;
+	line-height: 30px;
+	text-decoration: none;
+}
+
+
 .container-fluid > .content {
   margin-left: 230px;
-  background-color: #FFFFDC;
+  background-color: #ccffcc;
   -webkit-border-radius: 6px;
 	  -moz-border-radius: 6px;
 	  border-radius: 6px;

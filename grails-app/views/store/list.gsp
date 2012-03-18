@@ -8,31 +8,25 @@
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
-        </div>
+        
         <div class="body">
             <h1><g:message code="default.list.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
+            <div class="alert-message block-message warning">${flash.message}</div>
             </g:if>
             <div class="list">
-                <table>
+                <table class="zebra-striped">
                     <thead>
                         <tr>
                         
-                            <g:sortableColumn property="id" title="${message(code: 'store.id.label', default: 'Id')}" />
+                           
                         
-                            <g:sortableColumn property="storeName" title="${message(code: 'store.storeName.label', default: 'Store Name')}" />
+                            <th>Store Name</th>
                         
-                            <g:sortableColumn property="storeCode" title="${message(code: 'store.storeCode.label', default: 'Store Code')}" />
+                            <th>Store Code</th>
                         
-                            <th><g:message code="store.user.label" default="User" /></th>
+                            <th>Owner</th>
                         
-                            <g:sortableColumn property="accountDetails" title="${message(code: 'store.accountDetails.label', default: 'Account Details')}" />
-                        
-                            <g:sortableColumn property="acceptsDirect" title="${message(code: 'store.acceptsDirect.label', default: 'Accepts Direct')}" />
                         
                         </tr>
                     </thead>
@@ -40,17 +34,14 @@
                     <g:each in="${storeInstanceList}" status="i" var="storeInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
-                            <td><g:link action="show" id="${storeInstance.id}">${fieldValue(bean: storeInstance, field: "id")}</g:link></td>
+                         
                         
-                            <td>${fieldValue(bean: storeInstance, field: "storeName")}</td>
+                            <td><g:link action="show" id="${storeInstance.id}">${fieldValue(bean: storeInstance, field: "storeName")}</g:link></td>
                         
                             <td>${fieldValue(bean: storeInstance, field: "storeCode")}</td>
                         
-                            <td>${fieldValue(bean: storeInstance, field: "user")}</td>
+                            <td><g:link controller="user" action="show" id="${storeInstance.user.id}">${fieldValue(bean: storeInstance, field: "user")}</g:link></td>
                         
-                            <td>${fieldValue(bean: storeInstance, field: "accountDetails")}</td>
-                        
-                            <td><g:formatBoolean boolean="${storeInstance.acceptsDirect}" /></td>
                         
                         </tr>
                     </g:each>
