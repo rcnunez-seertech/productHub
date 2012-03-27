@@ -15,7 +15,6 @@
             <div class="alert-message block-message warning">${flash.message}</div>
             </g:if>
             <div class="dialog">
-                
 				<g:each in="${orderForms}" var="s" status="i">
 					<g:if test="${s.status != OrderStatus.RECEIVED}">
 					<table class="orders">
@@ -77,7 +76,7 @@
 									<td><paypal:button itemName="Order From ${s?.store?.storeName}"
 										itemNumber="${s?.cart?.id}"
 										transactionId="${payment?.transId}"
-										amount="${total}"
+										amount="${total.round(2)}"
 										discountAmount="0"
 										buyerId="${userInstance?.id}"
 										/></td>

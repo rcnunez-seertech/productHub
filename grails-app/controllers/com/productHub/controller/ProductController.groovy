@@ -13,8 +13,7 @@ class ProductController {
 
     def list = {
 		def userInstance = User.findByUsername(springSecurityService.authentication.name)
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [productInstanceList: Product.list(params), productInstanceTotal: Product.count(), userInstance: userInstance]
+        [productInstanceList: Product.list(), productInstanceTotal: Product.count(), userInstance: userInstance]
     }
 	
 	def image = {
