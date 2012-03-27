@@ -17,5 +17,6 @@ class Product {
 		productCode(unique:true, blank:false)
 		quantity(blank:false, min:1)
 		price(blank:false, min:1.0F, scale:2)
+		image(nullable:true)
     }
 }

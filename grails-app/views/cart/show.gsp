@@ -67,13 +67,5 @@
                     </tbody>
                 </table>
 			</sec:ifAnyGranted>
-            <div class="buttons">
-                <g:form>
-					<g:if test="${userInstance?.carts}">
-						<g:actionSubmit class="btn" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" />
-					</g:if>
-                    <!--<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />-->
-                </g:form>
-            </div>
     </body>
 </html>

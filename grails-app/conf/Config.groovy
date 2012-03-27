@@ -55,9 +55,15 @@ grails.exceptionresolver.params.exclude = ['password']
 environments {
     production {
         grails.serverURL = "http://www.changeme.com"
+		grails.paypal.server = "https://www.paypal.com/cgi-bin/webscr"
+		grails.paypal.email = "example@business.com"
+		grails.serverURL = "http://www.grails.org"	
     }
     development {
         grails.serverURL = "http://localhost:8080/${appName}"
+		grails.paypal.server = "https://www.sandbox.paypal.com/cgi-bin/webscr"
+		 grails.paypal.email = "ruth.nunez@gmail.com"
+		 grails.serverURL = "http://812.99.101.131"
     }
     test {
         grails.serverURL = "http://localhost:8080/${appName}"

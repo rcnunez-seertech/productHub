@@ -1,8 +1,11 @@
 package com.productHub.controller
+
+import grails.plugins.springsecurity.Secured
 import com.productHub.domain.*
 
 @Secured(['IS_AUTHENTICATED_FULLY'])
 class ProductOrderController {
+	def springSecurityService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 

@@ -40,16 +40,13 @@
                         
                             <td>${fieldValue(bean: storeInstance, field: "storeCode")}</td>
                         
-                            <td><g:link controller="user" action="show" id="${storeInstance.user.id}">${fieldValue(bean: storeInstance, field: "user")}</g:link></td>
+                            <td><g:link controller="user" action="show" id="${storeInstance?.user?.id}">${fieldValue(bean: storeInstance, field: "user")}</g:link></td>
                         
                         
                         </tr>
                     </g:each>
                     </tbody>
                 </table>
-            </div>
-            <div class="paginateButtons">
-                <g:paginate total="${storeInstanceTotal}" />
             </div>
         </div>
     </body>

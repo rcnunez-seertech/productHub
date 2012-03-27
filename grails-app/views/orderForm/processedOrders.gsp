@@ -30,14 +30,14 @@
 									<td>
 										
 										<sec:ifAnyGranted roles="ROLE_VENDOR">
-											<g:actionSubmit action="changeStatus" value="${message(code: 'default.button.upload.label', default: 'Change Status')}" />
+											<g:actionSubmit class="btn"  action="changeStatus" value="${message(code: 'default.button.upload.label', default: 'Change Status')}" />
 										</sec:ifAnyGranted>
 										<sec:ifAnyGranted roles="ROLE_CLIENT">
 											<g:if test="${s.payment == PaymentType.MONEY_TRANSFER && (!s.paymentProof || s.status == OrderStatus.PAYMENT_REJECTED)}">
-												<g:actionSubmit action="uploadForm" value="${message(code: 'default.button.upload.label', default: 'Upload Proof of Payment')}" />
+												<g:actionSubmit class="btn"  action="uploadForm" value="${message(code: 'default.button.upload.label', default: 'Upload Proof of Payment')}" />
 											</g:if>
 											<g:if test="${s.status == OrderStatus.DELIVERED || (s.payment == PaymentType.DIRECT_PAYMENT && s.status == OrderStatus.APPROVED)}">
-												<g:actionSubmit action="changeStatus" value="${message(code: 'default.button.upload.label', default: 'Mark as Received')}" />
+												<g:actionSubmit class="btn"  action="changeStatus" value="${message(code: 'default.button.upload.label', default: 'Mark as Received')}" />
 											</g:if>
 										</sec:ifAnyGranted>
 									</td>

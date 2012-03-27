@@ -36,8 +36,6 @@
 								  <a href="/productHub/logout/index" class="dropdown-toggle"><sec:loggedInUserInfo
 							field="username" /></a>
 								  <ul class="dropdown-menu">
-									<li><a href="#">Secondary link</a></li>
-									<li><a href="#">Something else here</a></li>
 									<li class="divider"></li>
 									<li><a href="/productHub/logout/index">Logout</a></li>
 								  </ul>

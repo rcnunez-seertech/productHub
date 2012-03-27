@@ -130,7 +130,7 @@ class OrderFormController {
 			}
 		}
 		
-		[orderForms: orderForms]
+		[orderForms: orderForms, userInstance:userInstance]
 	}
 	
 	

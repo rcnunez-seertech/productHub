@@ -18,8 +18,7 @@ class StoreController {
 
     def list = {
 		def userInstance = User.findByUsername(springSecurityService.authentication.name)
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [storeInstanceList: Store.list(params), storeInstanceTotal: Store.count(), userInstance: userInstance]
+        [storeInstanceList: Store.list(), storeInstanceTotal: Store.count(), userInstance: userInstance]
     }
 	
 	@Secured(['ROLE_ADMINISTRATOR'])

@@ -30,10 +30,6 @@
                             <th>First Name</th>
                         
                             <th>Last Name</th>
-                        
-                        
-                            
-                        
                         </tr>
                     </thead>
                     <tbody>
@@ -52,8 +48,6 @@
                     </tbody>
                 </table>
             </div>
-            <div class="paginateButtons">
-                <g:paginate total="${userInstanceTotal}" />
-            </div>
+            
     </body>
 </html>
